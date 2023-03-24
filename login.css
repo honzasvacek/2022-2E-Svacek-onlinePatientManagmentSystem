@@ -1,0 +1,109 @@
+.container{
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+.left_container,.right_container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+}
+.left_container{
+    background-color: white;
+}
+.right_container{
+    background-color: white;
+}
+.tableOfOrders {
+    min-width: 250px;
+    flex-direction: column;
+    position: fixed;
+    height: 400px;
+    width: 350px;
+    background-color: rgb(255, 255, 255);
+    border-style: solid;
+    border-width: 2px;
+    border-color: #203840;
+}
+.up_left_container,.down_left_container{
+    width: 100%;
+    height: 50%;
+}
+.down_left_container{
+    background-color: #02BBFD;
+}
+.up_left_container{
+    background-color: #0230FD;
+}
+.username_container,.password_container,.loginbutton_container{
+    height: 33%;
+    width: 100%;
+}
+.svacekhealth_text{
+    font-weight: bold;
+    margin-left: 70px;
+}
+.username{
+    margin-top: 40px;
+    margin-left: 20px;
+    color: #000000BF;
+}
+.logininfotext{
+    margin-top: 30px;
+    margin-left: 20px;
+    color: #000000BF;
+}
+.loginarray{
+    margin-left: 20px;
+    border-style: solid;
+    border-color: black;
+    border-width: 0.25px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 7px;
+}
+    .loginarray:hover{
+        border-style: solid;
+        border-color: rgb(29, 29, 29);
+        border-width: 0.5px;
+    }
+    .loginarray:active{
+        background-color: #ecececbf;
+        border-style: solid;
+        border-color: rgb(29, 29, 29);
+        border-width: 0.5px;
+    }
+.loginbutton{
+    margin-top: 5px;
+    margin-left: 130px;
+    background-color: white;
+    border-color: #0230FD;
+    color: #0230FD;
+    border-radius: 2px;
+    border-width: 1px;
+    padding-left: 15px;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    padding-right: 15px;
+    border-style: solid;
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+  }
+  .loginbutton:hover{
+    background-color: #0230FD;
+    color: white;
+  }
+  .loginbutton:active{
+    background-color: rgb(66, 134, 223);
+    border-color: rgb(66, 134, 223);
+  }
+  .logo{
+    width: 80%;
+  }

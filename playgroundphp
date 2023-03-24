@@ -1,0 +1,75 @@
+<?php 
+    //proměnná obsahující pole
+    $array_map = array(1,2,3,4,5);
+
+    $x = function ($value)
+    {
+        return $value*2;
+    };
+
+    $array_map2 = array_map(function ($value) {return $value*2;}, $array_map);
+
+    var_dump($array_map2);
+
+    function reverse_string($str)
+    {
+        if(strlen($str) > 1)
+        {
+        reverse_string(substr($str, 1));
+        }
+        echo substr($str, 0, 1);
+    }
+
+    reverse_string("chemie");
+
+    class ovoce
+    {
+        protected $barva;
+        protected $nazev;
+        function __construct($barva, $nazev)
+        {
+            $this->barva = $barva;
+            $this->nazev = $nazev;
+        }
+        function __get($name)
+        {
+            return $this->$name;
+        }
+        function __set($name, $value)
+        {
+            $this->$name = $value;
+            return $this->$name;
+        }
+    }
+    //vytváříme banán
+    $banan = new ovoce('Žlutá', 'Banán');
+    echo "<br/ >Ovoce 1:<br/ >".$banan->nazev." ".$banan->barva;
+
+    //Měníme barvu banánu
+    $banan->barva = 'Fialová';
+    echo "<br/ >Ovoce 2:<br/ >".$banan->nazev." ".$banan->barva,"<br/ >";
+    class exoticke_ovoce extends ovoce
+    {
+        private $zralost;
+        function __construct($barva, $nazev, $zralost)
+        {
+            parent::__construct($barva, $nazev);
+            $this->zralost = $zralost;
+        }
+        function __get($name)
+        {
+            return $this->$name;
+        }
+        function __set($name, $value)
+        {
+            $this->$name = $value;
+            return $this->$name;
+        }
+    }
+    $mango = new exoticke_ovoce('Oranžové','Mango','Přezrálé');
+    echo "Exoticke ovoce:<br/ >".$mango->nazev." ".$mango->barva." ".$mango->zralost."<br/ >";
+
+    $mango->barva = 'Rudá';
+    echo "Exoticke ovoce:<br/ >".$mango->nazev." ".$mango->barva." ".$mango->zralost."<br/ >";
+
+?>

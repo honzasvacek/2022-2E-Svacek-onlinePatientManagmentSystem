@@ -1,0 +1,59 @@
+.body {
+    padding-left: 150px;
+    padding-top: 90px;
+    padding-bottom: 1000px;
+}
+.header {
+    z-index: 200;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background-color: white;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgb(226, 231, 230);
+  }
+.left_section,.middle_section,.right_section {
+    width: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+.left_section {
+
+}
+.logo_picture {
+    height: 80px;
+    margin-left: 35px;
+}
+.logo_svacek {
+    height: 60px;
+    margin-left: 80px;
+}
+.middle_section {
+
+}
+.search_bar {
+    margin-left: 50px;
+    height: 18px;
+    padding: 10px;
+    font-size: 16px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(204,204,204);
+    box-shadow: inset 1px 2px 3px rgba(0,0,0,0.05);
+    border-color: rgb(240, 240, 240);
+    width: 500px;
+}
+.right_section {
+
+}
+.logo_health {
+    height: 60px;
+    margin-left: 110px;
+}

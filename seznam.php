@@ -21,5 +21,4 @@
     $domovska_stranka->obsah = $seznam_pacientu->zobrazeni_tabulky();
 
     $domovska_stranka->zobrazeni_stranky();
-
 ?>

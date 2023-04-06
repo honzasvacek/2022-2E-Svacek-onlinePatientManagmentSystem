@@ -18,8 +18,6 @@ require("seznamtable.php");
 $domovska_stranka = new stranka();
 $seznam_pacientu = new seznam_tabulka; 
 
-$domovska_stranka->obsah = $seznam_pacientu->zobrazeni_tabulky();
-
 $domovska_stranka->zobrazeni_stranky();
-
+$domovska_stranka->obsah = $seznam_pacientu->zobrazeni_tabulky();
 ?>

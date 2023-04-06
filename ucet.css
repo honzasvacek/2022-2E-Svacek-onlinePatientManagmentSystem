@@ -1,0 +1,126 @@
+.container{
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    top: 100px;
+    bottom: 0;
+    right: 0;
+    left: 150px;
+}
+.left_container,.right_container{
+    display: flex;
+    width: 50%;
+    height: 100%;
+    align-items: first baseline;
+    flex-direction: column;
+}
+.left_container{
+     border-bottom-left-radius: 15px;
+}
+.right_container{
+    border-bottom-right-radius: 15px;
+}
+.createAccBtn{
+    text-align: center;
+    margin-top: 70px;
+    bottom: 10px;
+    left: 800px;
+    text-align: center;
+    background-color: white;
+    border-color: #0230FD;
+    color: #0230FD;
+    border-radius: 2px;
+    border-width: 1px;
+    padding-left: 18px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-right: 18px;
+    border-style: solid;
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+}
+.createAccBtn:hover{
+    background-color: #0230FD;
+    color: white;
+}
+.createAccBtn:active{
+    background-color: rgb(66, 134, 223);
+    border-color: rgb(66, 134, 223);
+}
+
+.info{
+    margin-top: 10px;
+    margin-left: 60px;
+    color: #000000BF;
+}
+
+.input_field{
+    margin-left: 60px;
+    color: #000000BF;
+}
+
+.account_form{
+    --spacing: 40px;
+    width: 800px;
+    height: 760px;
+    margin-top: var(--spacing);
+    margin-bottom: var(--spacing);
+    margin-left: var(--spacing);
+    margin-right: var((--spacing));
+    border: 0px solid black; 
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.header_div{
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    background-color: #0230FD;
+    flex-direction: row;
+    justify-content: center;
+    display: flex;
+    height: fit-content;
+    width: 100%;
+}
+
+.left_right_container{
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 680px;
+    width: 100%;
+}
+.headline{
+    color: white;
+}
+.popup{
+    width: 350px;
+    background-color: white;
+    border-radius: 6px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.1);
+    text-align: center;
+    padding-top: 0;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    visibility: hidden; /*schováno dokud neproběhne akce*/
+    transition: transform 0.4s, top 0.4s;
+}
+
+.open_popup{
+    visibility: visible; /*zobrazím popup*/
+    top: 50%; /*nastavím popup na střed stránky*/
+    transform: translate(-50%, -50%) scale(1); /*změním velikost na původní velikost*/
+}
+
+.popup h2{
+    font-size: 28px;
+    font-weight: 50px;
+    padding: 10px 0;
+}
+

@@ -59,6 +59,7 @@
         public function zobrazeni_zahlavi()
         {
             ?>
+            <form method="post" action="<?=$this->nastaveni_akce($this->vyhledavaci_pole)?>">
             <div class="header">
                 <div class="left_section">
                     <a href="index.php">
@@ -66,13 +67,14 @@
                     </a>
                     <img class="logo_svacek" src="Pictures/SvacekLogo.PNG">
                 </div>
-                <form class="middle_section" method="post" action="<?=$this->nastaveni_akce($this->vyhledavaci_pole)?>">
+                <div class="middle_section">
                     <input class="search_bar" type="text" placeholder="Zadejte rodné číslo" name="rodne_cislo">
-                </form>
+                </div>
                 <div class="right_section">
                     <img class="logo_health" src="Pictures/HealthLogo.PNG" alt="">
                 </div>
             </div>
+            </form>
             <?php
         }
 

@@ -7,20 +7,81 @@
     right: 0;
     left: 150px;
 }
-.left_container,.right_container{
+.left-div, .middle-div, .right-div{
     display: flex;
-    width: 50%;
+    width: 33.33%;
     height: 100%;
     align-items: first baseline;
     flex-direction: column;
+    min-width: fit-content;
 }
-.left_container{
-     border-bottom-left-radius: 15px;
+.left-div{
+     border-right: 0.5px solid gray;
 }
-.right_container{
+.middle-div {
+    border-right: 0.5px solid gray;
+}
+.right-div{
+    
+}
+.buttons-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    width: 100%;
+    border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
 }
-.createAccBtn{
+.buttons-div div{
+    border-top: 0.5px solid gray;
+    width: 33.33%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.buttons-div button{
+    margin-bottom: 0px;
+}
+
+.buttons-div button, .btn-zpatky{
+    text-align: center;
+    background-color: white;
+    border-color: #0230FD;
+    color: #0230FD;
+    border-radius: 2px;
+    border-width: 1px;
+    padding-left: 18px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-right: 18px;
+    border-style: solid;
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+}
+button:hover, .btn-zpatky:hover{
+    background-color: #0230FD;
+    color: white;
+}
+button:active, .btn-zpatky:active{
+    background-color: rgb(66, 134, 223);
+    border-color: rgb(66, 134, 223);
+}
+
+
+.editbtn {
+
+}
+.deletebtn {
+
+}
+.deletebtn,.editbtn {
+    
+}
+.createAccBtn, .submit-button{
     text-align: center;
     margin-top: 70px;
     bottom: 10px;
@@ -39,11 +100,11 @@
     cursor: pointer;
     transition: background-color 0.15s, color 0.15s;
 }
-.createAccBtn:hover{
+.createAccBtn:hover, .submit-button:hover{
     background-color: #0230FD;
     color: white;
 }
-.createAccBtn:active{
+.createAccBtn:active, .submit-button:active{
     background-color: rgb(66, 134, 223);
     border-color: rgb(66, 134, 223);
 }
@@ -60,16 +121,22 @@
 }
 
 .account_form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
     --spacing: 40px;
-    width: 800px;
-    height: 760px;
-    margin-top: var(--spacing);
-    margin-bottom: var(--spacing);
-    margin-left: var(--spacing);
-    margin-right: var((--spacing));
+    top: 30px;
+    left: 30px;
+    bottom: 30px;
+    right: 30px;
     border: 0px solid black; 
     border-radius: 15px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.account_form h2 {
+    margin-left: 20px;
+    margin-top: 30px;
 }
 
 .header_div{
@@ -83,18 +150,18 @@
     width: 100%;
 }
 
-.left_right_container{
+.section-3-div{
     border-bottom-right-radius: 15px;
     border-bottom-left-radius: 15px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 680px;
+    height: 700px;
     width: 100%;
 }
 .headline{
     color: white;
-}
+}/*
 .popup{
     width: 350px;
     background-color: white;
@@ -108,14 +175,14 @@
     padding-left: 30px;
     padding-right: 30px;
     padding-bottom: 30px;
-    visibility: hidden; /*schováno dokud neproběhne akce*/
+    visibility: hidden; /*schováno dokud neproběhne akce
     transition: transform 0.4s, top 0.4s;
 }
 
-.open_popup{
-    visibility: visible; /*zobrazím popup*/
-    top: 50%; /*nastavím popup na střed stránky*/
-    transform: translate(-50%, -50%) scale(1); /*změním velikost na původní velikost*/
+.open-popup{
+    visibility: visible; /*zobrazím popup
+    top: 50%; /*nastavím popup na střed stránky
+    transform: translate(-50%, -50%) scale(1); /*změním velikost na původní velikost
 }
 
 .popup h2{
@@ -123,4 +190,54 @@
     font-weight: 50px;
     padding: 10px 0;
 }
+
+.modal {
+    width: 350px;
+    background-color: white;
+    border-radius: 6px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    padding-top: 0;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+}*/
+
+.overlay {
+    position: fixed;  
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); 
+    z-index: 200; 
+    cursor: pointer; 
+}
+
+.popup {
+    background-color: white;
+    z-index: 201;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /*vycentrováni*/
+    width: 350px;
+    height: 250px;
+    border: 0.5px solid gray;
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+.popup div {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
 

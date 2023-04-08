@@ -21,7 +21,13 @@
                                         "/resultkarta.php" => "resultkarta.php",
                                         "/resultchorobopis.php" => "resultchorobopis.php",
                                         "/resultrecept.php" => "resultrecept.php",
-                                        "/index.php" => "index.php"
+                                        "/index.php" => "index.php",
+                                        "/ucet_add_patient.php" => "resultucet.php",
+                                        "/ucet_edit_patient.php" => "ucet_edit_patient.php",
+                                        "/ucet_delete_patient.php" => "ucet_delete_patient.php",
+                                        "/ucet_add_patient_save.php" => "resultucet.php",
+                                        "/ucet_edit_patient_save.php" => "ucet_edit_patient_save.php",
+                                        "/ucet_delete_patient_save.php" => "ucet_delete_patient_save.php"
                                     );
 
         function __set($name, $value)

@@ -1,0 +1,72 @@
+.container{
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    top: 100px;
+    bottom: 0;
+    right: 0;
+    left: 150px;
+}
+.account_form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    --spacing: 40px;
+    top: 30px;
+    left: 30px;
+    bottom: 30px;
+    right: 30px;
+    border: 0px solid black; 
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.account_form h2 {
+    margin-left: 20px;
+    margin-top: 30px;
+}
+.account_form h1 {
+    color: white;
+}
+.header_div{
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    background-color: #0230FD;
+    flex-direction: row;
+    justify-content: center;
+    display: flex;
+    height: 10%;
+    width: 100%;
+}
+.section-3-div{
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 80%;
+    width: 100%;
+}
+.left-div, .middle-div, .right-div{
+    display: flex;
+    width: 33.33%;
+    height: 100%;
+    align-items: first baseline;
+    flex-direction: column;
+    min-width: fit-content;
+    min-height: fit-content ;
+}
+.left-div{
+     border-right: 0.5px solid gray;
+}
+.middle-div {
+    border-right: 0.5px solid gray;
+}
+.bottom-div {
+    background-color: #02BBFD;
+    display: flex;
+    height: 10%;
+    width: 100%;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}

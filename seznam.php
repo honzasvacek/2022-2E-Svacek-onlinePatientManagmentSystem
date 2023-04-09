@@ -18,7 +18,17 @@
     $domovska_stranka = new stranka();
     $seznam_pacientu = new seznam_tabulka;
 
-    $domovska_stranka->obsah = $seznam_pacientu->zobrazeni_tabulky();
+    $jeHledano = false;
+    $domovska_stranka->obsah = $seznam_pacientu->zobrazeni_obsahu($jeHledano);
 
     $domovska_stranka->zobrazeni_stranky();
+
 ?>
+    <script>
+            //nastavím spanu, což je křížek, akci onclick
+            document.querySelector('.popup-image span').onclick = () =>
+            {
+                //když se spustí onclick schovám popup
+                document.querySelector('.popup-image').style.display = 'none';
+            }
+    </script>

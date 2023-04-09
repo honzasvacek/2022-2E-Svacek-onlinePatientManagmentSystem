@@ -18,6 +18,17 @@ require("seznamtable.php");
 $domovska_stranka = new stranka();
 $seznam_pacientu = new seznam_tabulka; 
 
+$jeHledano = true;
+
 $domovska_stranka->zobrazeni_stranky();
-$domovska_stranka->obsah = $seznam_pacientu->zobrazeni_tabulky();
+$domovska_stranka->obsah = $seznam_pacientu->zobrazeni_obsahu($jeHledano);
 ?>
+
+<script>
+        //nastavím spanu, což je křížek, akci onclick
+        document.querySelector('.popup-image span').onclick = () =>
+        {
+            //když se spustí onclick schovám popup
+            document.querySelector('.popup-image').style.display = 'none';
+        }
+</script>

@@ -66,7 +66,15 @@
 
     require("page.php");
 
-    $domovska_stranka = new stranka();
+    class stranka_recept extends stranka
+    {
+        public function zobrazeni_searchbaru()
+        {
+
+        }
+    }
+
+    $domovska_stranka = new stranka_recept();
     $obsah = new recept;
 
     $domovska_stranka->obsah = $obsah->zobrazeni_obsahu_receptu();

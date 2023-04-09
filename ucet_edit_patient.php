@@ -28,16 +28,12 @@
             echo "</div>"; 
         }
 
-        public function zobrazeni_obsahu_uctu($title, $arr, $action)
+        public function dynamicke_zobrazeni_policek($arr)
         {
             @$id = trim($_POST['rodne_cislo']);
             if(empty($id))
             {
                 $i = 0;
-                echo "<form action=\"$action\" method=\"POST\">";
-                echo "<div class=\"account_form\">";
-                echo "<div class=\"header_div\"><h1 class=\"headline\">$title<h1></div>";
-                echo "<div class=\"section-3-div\">";
                 foreach($arr as $dbname => $czname)
                 {
                     if($i == 0)
@@ -64,10 +60,6 @@
                     echo "<input class=\"input_field\" value=\"\" type=\"text\" name=\"$dbname\" size=\"25\">";
                     $i++;
                 }
-                $db = null;
-
-                echo "</div>";
-                echo "</div>";
             }
             else
             {
@@ -106,10 +98,6 @@
                 $stmt->fetch();
                 //vypsání obsahu
                 $i = 0;
-                echo "<form action=\"$action\" method=\"post\">";
-                echo "<div class=\"account_form\">";
-                echo "<div class=\"header_div\"><h1 class=\"headline\">$title<h1></div>";
-                echo "<div class=\"section-3-div\">";
 
                 $hodnoty_databaze = array($jmeno, $prijmeni, $id, $tel, $mail,
                                         $zeme, $mesto, $psc, $ulice, $cp,
@@ -142,10 +130,6 @@
                     echo "<input class=\"input_field\" value=\"$hodnoty_databaze[$i]\" type=\"text\" name=\"$dbname\" size=\"25\">";
                     $i++;
                 }
-                $db = null;
-
-                echo "</div>";
-                echo "</div>";
             }
         }
     }

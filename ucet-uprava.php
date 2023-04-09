@@ -9,7 +9,7 @@
 </head>
 <body>
 <?php
-    require("page.php");
+   /* require("page.php");
     require("ucet_obsah.php");
     require("ucet_obsah_edit.php");
 
@@ -18,6 +18,6 @@
 
     $domovska_stranka->obsah =$ucet_obsah->ucet_obsah("Úprava údajů pacienta");
 
-    $domovska_stranka->zobrazeni_stranky();
+    $domovska_stranka->zobrazeni_stranky();*/
 ?>
 </body>

@@ -31,7 +31,7 @@
 .header_div{
     border-top-right-radius: 15px;
     border-top-left-radius: 15px;
-    background-color: #0230FD;
+    background-color: #6C7AE0;
     flex-direction: row;
     justify-content: center;
     display: flex;
@@ -63,7 +63,7 @@
     border-right: 0.5px solid gray;
 }
 .bottom-div {
-    background-color: #02BBFD;
+    background-color: #6C7AE0;
     display: flex;
     height: 10%;
     width: 100%;

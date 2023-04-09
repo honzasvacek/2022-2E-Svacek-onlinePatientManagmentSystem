@@ -34,10 +34,17 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     cursor: pointer;
+    transition: .25s;
+}
+
+.image:hover
+{
+    border:2px solid white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
 }
 
 .image p {
-    color: #0230FD;
+    color: #6C7AE0;
     font-size: large;
 }
 
@@ -47,10 +54,6 @@
     object-position: top;
     object-fit: cover;
     transition: 0.2s linear;
-}
-
-.image img:hover {
-    transform: scale(1.1);
 }
 
 .popup-image {
@@ -96,6 +99,7 @@
     position: absolute;
     bottom: 10px;
     left: 50%;
+    transform: translate(-50%);
 }
 
 .btn-tisk{

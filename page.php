@@ -74,13 +74,20 @@
                     <img class="logo_svacek" src="Pictures/SvacekLogo.PNG">
                 </div>
                 <div class="middle_section">
-                    <input class="search_bar" type="text" placeholder="Zadejte rodné číslo" name="rodne_cislo">
+                    <?php $this->zobrazeni_searchbaru() ?>
                 </div>
                 <div class="right_section">
                     <img class="logo_health" src="Pictures/HealthLogo.PNG" alt="">
                 </div>
             </div>
             </form>
+            <?php
+        }
+
+        function zobrazeni_searchbaru()
+        {
+            ?>
+            <input class="search_bar" type="text" placeholder="Zadejte rodné číslo" name="rodne_cislo">
             <?php
         }
 

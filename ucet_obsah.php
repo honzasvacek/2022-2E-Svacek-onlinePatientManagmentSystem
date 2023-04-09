@@ -8,11 +8,14 @@
                              "chronic_diseases"  => "Chronické nemoci", "allergic_diseases"  => "Alergie",
                              "genetic_diseases"  => "Genetické nemoci", "hereditary_diseases"  => "Dědičné nemoci"
                             );
-        
 
         public function ucet_obsah($title, $action){
             echo "<div class=\"container\">";
             $this->zobrazeni_obsahu_uctu($title, $this->data, $action);
+            $this->dynamicke_zobrazeni_policek($this->data);
+            $db = null;
+            echo "</div>";
+            echo "</div>";
             $this->submit_tlacitko();
             echo "</form>";
             $this->zobrazeni_tlacitek();
@@ -27,11 +30,15 @@
         
         public function zobrazeni_obsahu_uctu($title, $arr, $action)
         {
-            $i = 0;
             echo "<form action=\"$action\" method=\"POST\">";
             echo "<div class=\"account_form\">";
             echo "<div class=\"header_div\"><h1 class=\"headline\">$title<h1></div>";
             echo "<div class=\"section-3-div\">";
+        }
+
+        public function dynamicke_zobrazeni_policek($arr)
+        {
+            $i = 0;
             foreach($arr as $dbname => $czname)
             {
                 if($i == 0)
@@ -58,10 +65,6 @@
                 echo "<input class=\"input_field\" value=\"\" type=\"text\" name=\"$dbname\" size=\"25\">";
                 $i++;
             }
-            $db = null;
-
-            echo "</div>";
-            echo "</div>";
         }
 
         public function submit_tlacitko()

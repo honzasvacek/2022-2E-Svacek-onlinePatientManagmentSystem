@@ -32,6 +32,26 @@
             echo '<p> Nepodařilo se navázat spojení s databází </p>';
             exit;
         }
+        
+        //zkontroluju jestli je rodné číslo v databázi
+
+/*      //připravím proměnné pro propojení s databátí
+        $dsn = 'mysql:dbname=svacekhealth;host=localhost';
+        $user = 'localhost';
+        $password = '';
+
+        //vytvořím objekt pro spojení s databází
+        $pdo = new PDO($dsn, $user, $password);
+
+        $query = $pdo->prepare("SELECT * FROM patient-account WHERE identification_number = ?");
+        $query->execute([$id]);
+        $result = $query->rowCount();
+        if($result == 0)
+        {
+            echo "ŽÁDNÝ VÝSLEDEK";
+            return 0;
+        }*/
+        
         //získáni dat z tabulky - patient_account
         $query = "SELECT surname, lastname FROM patient_account WHERE identification_number = $id";
         $stmt = $db->prepare($query);

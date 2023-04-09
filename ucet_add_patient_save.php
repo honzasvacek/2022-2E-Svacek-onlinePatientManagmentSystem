@@ -16,32 +16,50 @@
 
     class ucet_add_patient_save extends ucet_obsah
     {
+        public $errors = array(); //vytvořím pole, kam budu ukládat nevyplněné hodnoty
         
         public function poslani_dat($data)
         {
-    
             if(($_SERVER['REQUEST_METHOD'] == "POST"))
             {
+                $errors = array();
+
                 //údaje byly postnuty
                 foreach($data as $dbname => $czname)
                 {
                     //kontroluju, jestli jsou všechny pole vyplněná
                     @$x = $_POST["$dbname"];
                     
-                    if(empty($x) && !($dbname == "chronic_diseases" || $dbname == "allergic_diseases" || $dbname == "genetic_diseases" || $dbname == "hereditary_diseases"))
+                    if(empty($x))
                     {
-                        //uživatel něco nevyplnil
-                        //popup
-                        echo "NIC";
-                        return 0; //pokud nebylo vše vyplněno, vypíšu zprávu a skončím
+                        if(($dbname != "chronic_diseases") && ($dbname != "allergic_diseases") && ($dbname != "genetic_diseases") && ($dbname != "hereditary_diseases"))
+                        {
+                            //povinný údaj nebyl vyplněn
+                            $errors[$czname] = "$czname nebylo vyplněno";
+                        }
                     }
+                }
+                foreach($errors as $inputname => $err_msg)
+                {
+                    //když nebyl vyplněn povinný údaj vypíšu zprávu a poté vrátím 0 protože nechci posílat dat do databáze
+                    ?>
+                    <div class="popup-image">
+                        <div class="message">
+                            <span>&times;</span> <!-- html entita, která vytvoří symbol křížku -->
+                            <h2>Odeslání - Neúspěšné</h2>
+                            <p>
+                                *Zapomněli jste vyplnit některé povinné údaje
+                            </p>
+                        </div>
+                    </div>
+                    <script>document.querySelector('.popup-image').style.display = 'block';</script>
+                    <?php
+                    return 0;
                 }
                 //vše bylo vyplněno
 
                 try
                 {
-                    //popup
-                    echo "OK";
                     //připojení na databázi
                     $db = new mysqli('localhost', 'root', '', 'svacekhealth');
 
@@ -49,6 +67,10 @@
                     $id = $_POST['identification_number'];
                     $surname = $_POST['surname'];
                     $lastname = $_POST['lastname'];
+
+                    //kontrola rodneho cisla
+                    //1) !empty($rodnecislo_post)) && (strlen($rodnecislo_post) == 10) && ((intval($rodnecislo_post) % 11) == 0)
+                    //2) Je v databázi?
 
                     //zapsání dat do databáze do tabulky patient_account
                     $query = "INSERT INTO patient_account (identification_number, surname, lastname) VALUES(?, ?, ?)";
@@ -94,12 +116,20 @@
                       echo "Došlo k chybě: ".$err->getMessage();
                       return 0;
                   }
-                   //popup
-            } else
-              {
-                echo "nic jste nevyplnili";
-                return 0;
-              }
+                ?>
+                <!-- Všechno porběhlo v pořádku => vypíši zprávu, že všechno proběhlo dobře -->
+                    <div class="popup-image">
+                        <div class="message">
+                            <span>&times;</span> <!-- html entita, která vytvoří symbol křížku -->
+                            <h2>Odeslání - Úspěšné</h2>
+                            <p>
+                                Údaje byly upraveny a uloženy
+                            </p>
+                        </div>
+                    </div>
+                    <script>document.querySelector('.popup-image').style.display = 'block';</script>
+                <?php
+            } 
         }
     }
 
@@ -110,6 +140,16 @@
     $domovska_stranka->obsah =$ucet_obsah->ucet_obsah("Přidání pacienta", "ucet_add_patient.php");
 
     $domovska_stranka->zobrazeni_stranky();
+    ?>
+        <script>
+            //nastavím spanu, což je křížek, akci onclick
+            document.querySelector('.popup-image span').onclick = () =>
+            {
+                //když se spustí onclick schovám popup
+                document.querySelector('.popup-image').style.display = 'none';
+            }
+        </script>
+    <?php
 ?>
 </body>
 

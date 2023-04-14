@@ -56,6 +56,9 @@
     min-width: fit-content;
     min-height: fit-content ;
 }
+.left-div, .middle-div, .right-div p{
+    color: #000000BF;
+}
 .left-div{
      border-right: 0.5px solid gray;
 }
@@ -70,3 +73,7 @@
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
 }
+input {
+    margin-left: 60px;
+}
+

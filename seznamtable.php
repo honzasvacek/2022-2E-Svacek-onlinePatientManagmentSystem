@@ -25,7 +25,7 @@
             }
 
             //získání dat z tabulky
-            $query = "SELECT surname, lastname, identification_number FROM patient_account"; //uložení příkazu do query
+            $query = "SELECT surname, lastname, identification_number FROM patient_account ORDER BY lastname"; //uložení příkazu do query
             $stmt = $db->prepare($query); //připravím příkaz na dotaz databázi 
             $stmt->execute(); //provedu příkaz
             $stmt->store_result(); //uložím výsledek do mezipaměti
@@ -77,7 +77,7 @@
                     
                     //rodné číslo pacienta NENÍ současně hledané rodné číslo uživatelem => zvypisuji obsah tabulky
 
-                    if($i%2 == 0)
+                    elseif($i%2 == 0)
                     {
                         //sudý řádek bude mít bílou barvu
 

@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Karta</title>
     <link rel="stylesheet" href="karta.css">
+    <link rel="stylesheet" href="popup_message/popup_styles.css">
+
 </head>
 <body>
 
@@ -16,75 +18,141 @@
 
     //generování stránky
     $domovska_stranka = new stranka();
-    $obsah = new karta();
+    $obsah_karty = new karta();
 
-    //získání hodnot z databáze
-    if($_SERVER['REQUEST_METHOD'] == "POST")
+    $values = ziskani_hodnot_databaze();
+
+    $domovska_stranka->obsah = $obsah_karty->zobrazeni_karty($values, $values[2]);
+    $domovska_stranka->zobrazeni_stranky();
+
+    
+    function ziskani_hodnot_databaze()
     {
-        //uložím si rodné číslo hledaného pacienta
-        $id = trim($_POST['rodne_cislo']);
-
-        //spojení na databázi
-        @$db = new mysqli('localhost', 'root', '', 'svacekhealth');
-        if(mysqli_connect_errno() != 0)
+        //získání hodnot z databáze
+        if($_SERVER['REQUEST_METHOD'] == "POST")
         {
-            //spojení se nepodařilo, protože funkce vrátila číslo různé od nuly => číslo chyby
-            echo '<p> Nepodařilo se navázat spojení s databází </p>';
-            exit;
+            //uložím si rodné číslo hledaného pacienta
+            $id = trim($_POST['rodne_cislo']);
+
+            //spojení na databázi
+            @$db = new mysqli('localhost', 'root', '', 'svacekhealth');
+            if(mysqli_connect_errno() != 0)
+            {
+                //spojení se nepodařilo, protože funkce vrátila číslo různé od nuly => číslo chyby
+                echo '<p> Nepodařilo se navázat spojení s databází </p>';
+                exit;
+            }
+            
+            //zkontroluju jestli je rodné číslo typu int
+            if(!is_numeric($id))
+            {
+                //uživatel zadal rodné číslo jinými znaky než číslo
+
+            ?>
+                <div class="popup-image">
+                    <div class="message">
+                        <span>&times;</span> 
+                        <h2>Hledání - Neúspěšné</h2>
+                        <p id="id_exist_p">*Zadejte rodné číslo ve formátu RRMMDDXXXX</p>
+                    </div>
+                </div>
+                <script>
+                    //zobrazení popupu
+                    document.querySelector('.popup-image').style.display = 'block';
+                </script>
+            <?php
+
+            $values = array("","","","","","","","","","","","","","","","","");
+            return $values;
+            }
+            //zkontroluju jestli je rodné číslo v databázi
+
+            //připravím dotaz
+            $query = "SELECT identification_number FROM patient_account WHERE identification_number = $id";
+
+            try
+            {
+                //zkusím provést příkaz
+
+                $stmt = $db->prepare($query);
+                $stmt->execute();
+                $stmt->store_result();
+                $stmt->bind_result($id_from_db);
+                $stmt->fetch();
+            }
+            catch(PDOException $err)
+            {
+                //pokud rodné číslo neexistuje zachytím vyjímku
+
+                echo $err->getMessage();
+                $values = array("","","","","","","","","","","","","","","","","");
+                return $values;
+            }
+            //zkkontroluji výsledek
+            if(empty($id_from_db))
+            {
+                //uživatel zadal rodné číslo jinými znaky než číslo
+
+                ?>
+                <div class="popup-image">
+                    <div class="message">
+                        <span>&times;</span> 
+                        <h2>Hledání - Neúspěšné</h2>
+                        <p id="id_exist_p">*Pacient s tímto rodným číslem není v databázi</p>
+                    </div>
+                </div>
+                <script>
+                    //zobrazení popupu
+                    document.querySelector('.popup-image').style.display = 'block';
+                </script>
+            <?php
+
+            $values = array("","","","","","","","","","","","","","","","","");
+            return $values;
+            }
+            
+            //získáni dat z tabulky - patient_account
+            $query = "SELECT surname, lastname FROM patient_account WHERE identification_number = $id";
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($jmeno, $prijmeni);
+            $stmt->fetch();
+
+            //získání dat z tabulky - contact
+            $query = "SELECT  telefon_number, email, country, city, zip_code, street, house_number
+            FROM contact WHERE identification_number = $id";
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($tel, $mail, $zeme, $mesto, $psc, $ulice, $cp);
+            $stmt->fetch();
+
+            //získání dat z tabulky - medical_detail
+            $query = "SELECT weight, height, bloodtype, chronic_diseases, allergic_diseases, genetic_diseases, hereditary_diseases
+            FROM medical_detail WHERE identification_number = $id";
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($vaha, $vyska, $kr_skupina, $chr_n, $ale_n, $gen_n, $ded_n);
+            $stmt->fetch();
+            
+            //uložím hodnoty odpovídajících sloupců
+            $values = array($jmeno, $prijmeni, $id, $tel, $mail, $zeme, $mesto, $psc, $ulice, $cp,
+                            $vaha, $vyska, $kr_skupina, $chr_n, $ale_n, $gen_n, $ded_n
+                        );
+            return $values;
         }
-        
-        //zkontroluju jestli je rodné číslo v databázi
-
-/*      //připravím proměnné pro propojení s databátí
-        $dsn = 'mysql:dbname=svacekhealth;host=localhost';
-        $user = 'localhost';
-        $password = '';
-
-        //vytvořím objekt pro spojení s databází
-        $pdo = new PDO($dsn, $user, $password);
-
-        $query = $pdo->prepare("SELECT * FROM patient-account WHERE identification_number = ?");
-        $query->execute([$id]);
-        $result = $query->rowCount();
-        if($result == 0)
-        {
-            echo "ŽÁDNÝ VÝSLEDEK";
-            return 0;
-        }*/
-        
-        //získáni dat z tabulky - patient_account
-        $query = "SELECT surname, lastname FROM patient_account WHERE identification_number = $id";
-        $stmt = $db->prepare($query);
-        $stmt->execute();
-        $stmt->store_result();
-        $stmt->bind_result($jmeno, $prijmeni);
-        $stmt->fetch();
-
-        //získání dat z tabulky - contact
-        $query = "SELECT  telefon_number, email, country, city, zip_code, street, house_number
-        FROM contact WHERE identification_number = $id";
-        $stmt = $db->prepare($query);
-        $stmt->execute();
-        $stmt->store_result();
-        $stmt->bind_result($tel, $mail, $zeme, $mesto, $psc, $ulice, $cp);
-        $stmt->fetch();
-
-        //získání dat z tabulky - medical_detail
-        $query = "SELECT weight, height, bloodtype, chronic_diseases, allergic_diseases, genetic_diseases, hereditary_diseases
-        FROM medical_detail WHERE identification_number = $id";
-        $stmt = $db->prepare($query);
-        $stmt->execute();
-        $stmt->store_result();
-        $stmt->bind_result($vaha, $vyska, $kr_skupina, $chr_n, $ale_n, $gen_n, $ded_n);
-        $stmt->fetch();
-        
-        //uložím hodnoty odpovídajících sloupců
-        $values = array($jmeno, $prijmeni, $id, $tel, $mail, $zeme, $mesto, $psc, $ulice, $cp,
-                        $vaha, $vyska, $kr_skupina, $chr_n, $ale_n, $gen_n, $ded_n
-                       );
     }
 
-    $domovska_stranka->obsah = $obsah->zobrazeni_karty($values, "$jmeno $prijmeni rč. $id");
-
-    $domovska_stranka->zobrazeni_stranky();
+    
 ?>
+    <script>
+        //nastavím spanu, což je křížek, akci on
+    document.querySelector('.popup-image span').onclick = () =>
+    {
+        document.querySelector('.popup-image').style.display = 'none';
+    }
+    </script>
+
+</body>

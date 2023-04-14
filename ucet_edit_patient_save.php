@@ -18,14 +18,12 @@
     {
         public function poslani_dat($data)
         {
-            //pokud uživatel vyhledává pacienta nechci zpouštět tuto if klausuli
-            @$rodne_cislo_post = trim($_POST['rodne_cislo']);
 
+            //vytvořím pole, kam budu ukládat nevyplněné hodnoty
             $errors = array();
             
-            if(($_SERVER['REQUEST_METHOD'] == "POST") && (empty($rodne_cislo_post)))
+            if(($_SERVER['REQUEST_METHOD'] == "POST"))
             {
-                //$errors = array(); //vytvořím pole, kam budu ukládat nevyplněné hodnoty
                 
                 //údaje byly postnuty
                 foreach($data as $dbname => $czname)
@@ -201,8 +199,6 @@
                 document.querySelector('.popup-image').style.display = 'none';
             }
         </script>
-    <?php
-     
-?>
+        
 </body>
         

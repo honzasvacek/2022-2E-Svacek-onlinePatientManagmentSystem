@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Účet - přidání</title>
+    <title>Uložení přidaného pacienta</title>
     <link rel="stylesheet" href="ucet.css">
 </head>
 <body>
@@ -65,6 +65,83 @@
 
                     //vytvářím zkrácené názvy proměnných pro tabulku contact
                     $id = $_POST['identification_number'];
+
+                    //zkontroluju, zda rodné číslo splňuje parametry rodného čísla
+                    if(!((strlen($id) == 10) && ((intval($id) % 11) == 0) && (is_numeric($id))))
+                    {
+                        //rodné číslo neodpovídá parametrům, takže vypíšu zprávu a skončím
+                        ?>
+                            <div class="popup-image">
+                                <div class="message">
+                                    <span>&times;</span> <!-- html entita, která vytvoří symbol křížku -->
+                                    <h2>Odeslání - Neúspěšné</h2>
+                                    <p style="margin-bottom: 0;">
+                                        *Zkontrolujte prosím znovu, zda jste zadali rodné číslo správně. 
+                                    </p>
+                                    <p>
+                                    Parametry rodného čísla nejsou správné
+                                    </p>
+                                </div>
+                            </div>
+                            <script>document.querySelector('.popup-image').style.display = 'block';</script>
+                        <?php
+                        return 0;
+                    }
+                    
+                    //zjistím zda náhodou daný pacient již neexistuje
+
+                    //připravím dotaz
+                    $query = "SELECT identification_number FROM patient_account WHERE identification_number = $id";
+
+                    try
+                    {
+                        //zkusím provést příkaz
+
+                        $stmt = $db->prepare($query);
+                        $stmt->execute();
+                        $stmt->store_result();
+                        $stmt->bind_result($id_from_db);
+                        $stmt->fetch();
+                    }
+                    catch(PDOException $err)
+                    {
+                        //pokud rodné číslo neexistuje zachytím vyjímku
+
+                        echo $err->getMessage();
+                        return 0;
+                    }
+                    if(!empty($id_from_db))
+                    {
+                        if($id_from_db == $id)
+                        {
+                            //uživatel chtěl přidat pacienta, který již existuje
+
+                            ?>
+                                <div class="popup-image">
+                                    <div class="message">
+                                        <span>&times;</span> 
+                                        <h2>Odeslání - Neúspěšné</h2>
+                                        <p id="id_exist_p">*Pacient s vyplněným rodným číslem již existuje</p>
+                                    </div>
+                                </div>
+                                <script>
+                                    //zobrazení popupu
+                                    document.querySelector('.popup-image').style.display = 'block';
+
+                                    //změnění textu paragraphu
+                                    /*
+                                    const message = "<?//echo "Pacient s rodným číslem $id_from_db už existuje" ?>";
+                                    const p = document.getElementById('id_exist_p');
+                                    p.innerText = message;*/
+                                </script>
+                            <?php
+                            return 0;
+                        }
+                    }
+                   
+
+                    //zkontroluju zda jsou ostatní proměnné správného typu (string, int)
+
                     $surname = $_POST['surname'];
                     $lastname = $_POST['lastname'];
 

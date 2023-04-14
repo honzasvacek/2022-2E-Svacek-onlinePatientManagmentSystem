@@ -108,6 +108,9 @@ button:active, .btn-zpatky:active{
     background-color: rgb(66, 134, 223);
     border-color: rgb(66, 134, 223);
 }
+.submit-button {
+
+}
 
 .info{
     margin-top: 10px;
@@ -118,6 +121,9 @@ button:active, .btn-zpatky:active{
 .input_field{
     margin-left: 60px;
     color: #000000BF;
+    display: flex;
+    width: 160px;
+    min-width: 40px;
 }
 
 .account_form{

@@ -12,7 +12,15 @@
     require("page.php");
     require("ucet_obsah.php");
 
-    $domovska_stranka = new stranka();
+    class stranka_ucet extends stranka
+    {
+        public function zobrazeni_searchbaru()
+        {
+            //nevypním nic ,takže se nezobrazí a to chci
+        }
+    }
+
+    $domovska_stranka = new stranka_ucet();
     $ucet_obsah = new ucet_obsah();
 
     $domovska_stranka->obsah =$ucet_obsah->ucet_obsah("Pacient", "ucet.php");

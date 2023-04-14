@@ -29,8 +29,16 @@
         }
     }
 
+    class stranka_ucet_add extends stranka
+    {
+        public function zobrazeni_searchbaru()
+        {
+            //nevypním nic ,takže se nezobrazí a to chci
+        }
+    }
+
     //vypsání obsahu
-    $domovska_stranka = new stranka();
+    $domovska_stranka = new stranka_ucet_add();
     $ucet_obsah = new ucet_add_patient();
 
     $domovska_stranka->obsah =$ucet_obsah->ucet_obsah("Přidání pacienta", "ucet_add_patient_save.php");

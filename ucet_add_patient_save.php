@@ -17,7 +17,8 @@
     class ucet_add_patient_save extends ucet_obsah
     {
         public $errors = array(); //vytvořím pole, kam budu ukládat nevyplněné hodnoty
-        
+
+
         public function poslani_dat($data)
         {
             if(($_SERVER['REQUEST_METHOD'] == "POST"))
@@ -64,7 +65,7 @@
                     $db = new mysqli('localhost', 'root', '', 'svacekhealth');
 
                     //vytvářím zkrácené názvy proměnných pro tabulku contact
-                    $id = $_POST['identification_number'];
+                    @$id = $_POST['identification_number'];
 
                     //zkontroluju, zda rodné číslo splňuje parametry rodného čísla
                     if(!((strlen($id) == 10) && ((intval($id) % 11) == 0) && (is_numeric($id))))

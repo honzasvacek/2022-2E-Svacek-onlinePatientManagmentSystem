@@ -24,8 +24,90 @@
         public function submit_tlacitko()
         {
             echo "<div style=\"border-top: 0.5px solid gray;\" class=\"buttons-div\">";
-            echo "<input class=\"submit-button\" type=\"submit\" value=\"Save\">";  
+            echo "<input class=\"submit-button\" type=\"submit\" value=\"Uložit úpravy\">";  
             echo "</div>"; 
+        }
+
+        public function kontrola_rodneho_cisla()
+        {
+            @$id = $_POST['rodne_cislo'];
+            if(!empty($id))
+            {
+                //připojení na databázi
+
+                $db = new mysqli('localhost', 'root', '', 'svacekhealth');
+
+                //$id = $_POST['identification_number'];
+
+                //zkontroluju, zda rodné číslo splňuje parametry rodného čísla
+                if(!((strlen($id) == 10) && ((intval($id) % 11) == 0) && (is_numeric($id))))
+                {
+                    //rodné číslo neodpovídá parametrům, takže vypíšu zprávu a skončím
+                    ?>
+                        <div class="popup-image">
+                            <div class="message">
+                                <span>&times;</span> <!-- html entita, která vytvoří symbol křížku -->
+                                <h2>Hledání - Neúspěšné</h2>
+                                <p style="margin-bottom: 0;">
+                                    *Zkontrolujte prosím znovu, zda jste zadali rodné číslo správně. 
+                                </p>
+                                <p>
+                                Parametry rodného čísla nejsou správné
+                                </p>
+                            </div>
+                        </div>
+                        <script>document.querySelector('.popup-image').style.display = 'block';</script>
+                    <?php
+                    return false;
+                }
+                    
+                //zjistím zda náhodou daný pacient již neexistuje
+
+                //připravím dotaz
+                $query = "SELECT identification_number FROM patient_account WHERE identification_number = $id";
+
+                try
+                {
+                    //zkusím provést příkaz
+
+                    $stmt = $db->prepare($query);
+                    $stmt->execute();
+                    $stmt->store_result();
+                    $stmt->bind_result($id_from_db);
+                    $stmt->fetch();
+                }
+                catch(PDOException $err)
+                {
+                    //pokud rodné číslo neexistuje zachytím vyjímku
+
+                    echo $err->getMessage();
+                    return false;
+                }
+                if(empty($id_from_db))
+                {
+                    //uživatel hledá pacienta, který neexistuje
+
+                    ?>
+                        <div class="popup-image">
+                            <div class="message">
+                                <span>&times;</span> 
+                                <h2>Hledání - Neúspěšné</h2>
+                                <p id="id_exist_p">*Pacient s vyplněným rodným číslem neexistuje</p>
+                            </div>
+                        </div>
+                        <script>
+                            //zobrazení popupu
+                            document.querySelector('.popup-image').style.display = 'block';
+                        </script>
+                    <?php
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+            return true; //pokud nic nevrátilo false je vše v pořádku a vrátím true
         }
 
         public function dynamicke_zobrazeni_policek($arr)
@@ -142,4 +224,14 @@
 
     $domovska_stranka->zobrazeni_stranky();
 ?>
+
+    <script>
+            //nastavím spanu, což je křížek, akci onclick
+            document.querySelector('.popup-image span').onclick = () =>
+            {
+                //když se spustí onclick schovám popup
+                document.querySelector('.popup-image').style.display = 'none';
+            }
+        </script>
+
 </body>

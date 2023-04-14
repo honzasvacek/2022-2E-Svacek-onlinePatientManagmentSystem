@@ -12,7 +12,7 @@
                                  "Recept" => "recept.php"
                                 );
         public $vyhledavaci_pole = array("/seznam.php" => "resultseznam.php", //klíč - současná url adresa, //hodnota - url adresa, na kterou budou odkazovat
-                                        "/ucet.php" => "resultucet.php",
+                                        "/ucet.php" => "ucet.php",
                                         "/karta.php" => "resultkarta.php",
                                         "/chorobopis.php" => "resultchorobopis.php",
                                         "/recept.php" => "resultrecept.php",
@@ -22,12 +22,12 @@
                                         "/resultchorobopis.php" => "resultchorobopis.php",
                                         "/resultrecept.php" => "resultrecept.php",
                                         "/index.php" => "index.php",
-                                        "/ucet_add_patient.php" => "resultucet.php",
+                                        "/ucet_add_patient.php" => "ucet_add_patient.php",
                                         "/ucet_edit_patient.php" => "ucet_edit_patient.php",
                                         "/ucet_delete_patient.php" => "ucet_delete_patient.php",
-                                        "/ucet_add_patient_save.php" => "resultucet.php",
-                                        "/ucet_edit_patient_save.php" => "ucet_edit_patient_save.php",
-                                        "/ucet_delete_patient_save.php" => "ucet_delete_patient_save.php"
+                                        "/ucet_add_patient_save.php" => "ucet_add_patient.php",
+                                        "/ucet_edit_patient_save.php" => "ucet_edit_patient.php",
+                                        "/ucet_delete_patient_save.php" => "ucet_delete_patient.php"
                                     );
 
         function __set($name, $value)

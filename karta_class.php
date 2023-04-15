@@ -3,16 +3,17 @@
 class karta
     {
 
-        public $data = array("surname" => "Jméno", "lastname" => "Příjmení", "identification_number" => "Rodné číslo",
-                            "telefon_number"  => "Telefonní číslo", "email"  => "E-mail", "country"  => "Země" ,
+        public $data = array();
+        
+        public function zobrazeni_karty($arr, $title, $contacts)
+        {
+            $this->data = array("surname" => "Jméno", "lastname" => "Příjmení", "identification_number" => "Rodné číslo", "sex" => "Pohlaví", "age" => "Věk",
+                            "telefon_number"  => "$contacts[0]", "email"  => "$contacts[1]", "country"  => "Země" ,
                             "city"  => "Město", "zip_code"  => "Poštovní směrovací číslo", "street"  => "Ulice", "house_number"  => "Číslo popisné",
                             "weight" => "Váha", "height" => "Výška", "blood_type"  => "Krevní skupina", 
                             "chronic_diseases"  => "Chronické nemoci", "allergic_diseases"  => "Alergie",
                             "genetic_diseases"  => "Genetické nemoci", "hereditary_diseases"  => "Dědičné nemoci"
                             );
-        
-        public function zobrazeni_karty($arr, $title)
-        {
             $this->zobrazeni_obsahu_karty($arr, $title);
         }
 
@@ -33,14 +34,14 @@ class karta
                     echo "<div class=\"left-div\">";
                     echo "<h2>Základní údaje</h2>";
                 }
-                if($i==3)
+                if($i==5)
                 {
                     //chci pritnout druhý div a ukončit první
                     echo "</div>";
                     echo "<div class=\"middle-div\">";
                     echo "<h2>Kontakt</h2>";
                 }
-                if($i==10)
+                if($i==12)
                 {
                     //chci pritnout třetí div a ukončit druhý
                     echo "</div>";

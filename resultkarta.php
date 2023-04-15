@@ -15,14 +15,24 @@
     //potřebné soubory
     require("page.php");
     require("karta_class.php");
+    require("functions.php");
 
     //generování stránky
     $domovska_stranka = new stranka();
     $obsah_karty = new karta();
 
+    //příprava parametrů
     $values = ziskani_hodnot_databaze();
+    $titel = "$values[0] $values[1] rč.$values[2]";
+    if(getAge($values[2], $values[3]) < 15)
+    {
+        $contacts = array("Telefonní číslo zákonného zástupce", "E-mail zákonného zástupce");
+    } else{
+        $contacts = array("Telefonní číslo", "E-mail");
+    }
+    
 
-    $domovska_stranka->obsah = $obsah_karty->zobrazeni_karty($values, $values[2]);
+    $domovska_stranka->obsah = $obsah_karty->zobrazeni_karty($values, $titel, $contacts);
     $domovska_stranka->zobrazeni_stranky();
 
     
@@ -129,16 +139,20 @@
             $stmt->fetch();
 
             //získání dat z tabulky - medical_detail
-            $query = "SELECT weight, height, bloodtype, chronic_diseases, allergic_diseases, genetic_diseases, hereditary_diseases
+            $query = "SELECT sex, weight, height, bloodtype, chronic_diseases, allergic_diseases, genetic_diseases, hereditary_diseases
             FROM medical_detail WHERE identification_number = $id";
             $stmt = $db->prepare($query);
             $stmt->execute();
             $stmt->store_result();
-            $stmt->bind_result($vaha, $vyska, $kr_skupina, $chr_n, $ale_n, $gen_n, $ded_n);
+            $stmt->bind_result($pohlavi, $vaha, $vyska, $kr_skupina, $chr_n, $ale_n, $gen_n, $ded_n);
             $stmt->fetch();
+
+            $pohlavi = getSex($pohlavi);
+            $vek = getAge($id, $pohlavi);
+
             
             //uložím hodnoty odpovídajících sloupců
-            $values = array($jmeno, $prijmeni, $id, $tel, $mail, $zeme, $mesto, $psc, $ulice, $cp,
+            $values = array($jmeno, $prijmeni, $id, $pohlavi, $vek, $tel, $mail, $zeme, $mesto, $psc, $ulice, $cp,
                             $vaha, $vyska, $kr_skupina, $chr_n, $ale_n, $gen_n, $ded_n
                         );
             return $values;

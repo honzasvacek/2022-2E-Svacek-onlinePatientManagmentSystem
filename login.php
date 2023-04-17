@@ -1,3 +1,22 @@
+<?php
+
+if($_SERVER['REQUEST_METHOD'] == "POST")
+{
+    ?>
+        <div class="popup-image">
+<div class="message">
+    <span>&times;</span> <!-- html entita, která vytvoří symbol křížku -->
+    <h2>Přihlášení - Neúspěšné</h2>
+    <p style="margin-bottom: 0;">
+        *Zkontrolujte prosím znovu, zda jste zadali přihlašovací správně. 
+    </p>
+</div>
+</div>
+<script>document.querySelector('.popup-image').style.display = 'block';</script>
+    <?php
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,8 +33,12 @@
 
             </div>
             <form class="tableOfOrders" action="index.php" method="POST">
+            <p class="svacekhealth_text">SVACEK HEALTH - Přihlášení</p>
+                <div class="id_container">
+                    <p class="username">ID</p>
+                    <input class="loginarray" type="text" name="id" size="25">
+                 </div>
                  <div class="username_container">
-                    <p class="svacekhealth_text">SVACEK HEALTH - Přihlášení</p>
                     <p class="username">Přihlašovací jméno</p>
                     <input class="loginarray" type="text" name="prihlasovaci_jmeno" size="25">
                  </div>
@@ -36,4 +59,12 @@
         </div>
     </div>
 </body>
+    <script>
+            //nastavím spanu, což je křížek, akci onclick
+            document.querySelector('.popup-image span').onclick = () =>
+            {
+                //když se spustí onclick schovám popup
+                document.querySelector('.popup-image').style.display = 'none';
+            }
+    </script>
 </html>

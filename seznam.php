@@ -9,8 +9,6 @@
 </head>
 <body>
     
-</body>
-</html>
 <?php
     require("page.php");
     require("seznamtable.php");
@@ -24,11 +22,13 @@
     $domovska_stranka->zobrazeni_stranky();
 
 ?>
-    <script>
-            //nastavím spanu, což je křížek, akci onclick
-            document.querySelector('.popup-image span').onclick = () =>
-            {
-                //když se spustí onclick schovám popup
-                document.querySelector('.popup-image').style.display = 'none';
-            }
-    </script>
+        <script>
+                //nastavím spanu, což je křížek, akci onclick
+                document.querySelector('.popup-image span').onclick = () =>
+                {
+                    //když se spustí onclick schovám popup
+                    document.querySelector('.popup-image').style.display = 'none';
+                }
+        </script>
+    </body>
+</html>

@@ -60,4 +60,60 @@
           }   
     }
 
+    function checkLogin($id, $username, $password)
+    {
+        if(empty($id) or empty($username) or empty($password) or !is_numeric($id))
+        {
+            return 0;
+        }
+
+        $db = new mysqli('localhost', 'root', '', 'svacekhealth');
+        if(mysqli_connect_errno() != 0)
+        {
+            return 0;
+        }
+
+        //kouknu se do databáze
+
+        //příkaz 
+
+        $query = "SELECT UserID FROM doctors WHERE UserID = $id";
+
+        try
+        {
+            //zkusím provést příkaz
+
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($id_db);
+            $stmt->fetch();
+        }
+        catch(PDOException $err)
+        {
+            //pokud rodné číslo neexistuje zachytím vyjímku
+
+            echo $err->getMessage();
+            return 0;
+        }
+        if(!empty($id_db))
+        {
+            $query = "SELECT username, password FROM doctors WHERE UserID = $id_db";
+
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($name_db, $pass_db);
+            $stmt->fetch();
+        }
+
+        if(($username == $name_db) && ($password == $pass_db))
+        {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+
 ?>

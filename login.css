@@ -25,12 +25,12 @@
     min-width: 250px;
     flex-direction: column;
     position: fixed;
-    height: 400px;
+    height: 450px;
     width: 350px;
     background-color: rgb(255, 255, 255);
-    border-style: solid;
-    border-width: 2px;
-    border-color: #203840;
+    border: 0px solid black; 
+    border-radius: 15px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 .up_left_container,.down_left_container{
     width: 100%;
@@ -42,8 +42,8 @@
 .up_left_container{
     background-color: #0230FD;
 }
-.username_container,.password_container,.loginbutton_container{
-    height: 33%;
+.id_container,.username_container,.password_container,.loginbutton_container{
+    height: 25%;
     width: 100%;
 }
 .svacekhealth_text{
@@ -51,12 +51,12 @@
     margin-left: 70px;
 }
 .username{
-    margin-top: 40px;
+    margin-top: 10px;
     margin-left: 20px;
     color: #000000BF;
 }
 .logininfotext{
-    margin-top: 5px;
+    margin-top: 0px;
     margin-left: 20px;
     color: #000000BF;
 }
@@ -107,3 +107,48 @@
   .logo{
     width: 80%;
   }
+
+  /*popup*/
+.popup-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.75);
+    height: 100%;
+    width: 100%;
+    z-index: 300;
+    display: none;
+}
+
+.popup-image .message span {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    font-size: 40px;
+    font-weight: bolder;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    z-index: 300;
+}
+
+.popup-image .message
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 5px;
+    width: 500px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-image .message p {
+    font-size: larger;
+    color: black;
+}
+

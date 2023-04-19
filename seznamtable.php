@@ -52,7 +52,7 @@
                     </tr>";
 
             //proměnná $i poslouží k tomu, aby se lišila barva mezi lichými s sudými řádky
-            $i = 1;
+            $i = 0;
 
             while($stmt->fetch())
             {

@@ -120,3 +120,13 @@ td {
 .container .content_container .record_detail {
     margin-left: 50px;
 }
+
+/* zobrazení obsahu record_detail */
+
+.record_detail .content {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    border-radius: 15px;
+}
+

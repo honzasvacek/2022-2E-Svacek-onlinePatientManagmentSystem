@@ -116,4 +116,79 @@
         }
     }
 
+    function patientExist($id)
+    {
+
+        if(!((strlen($id) == 10) && ((intval($id) % 11) == 0) && (is_numeric($id))))
+        {
+            return false;
+        }
+
+        @$db = new mysqli('localhost', 'root', '', 'svacekhealth'); 
+
+        if(mysqli_connect_errno() != 0)
+        {
+            //spojení se nepodařilo, protože funkce vrátila číslo různé od nuly => číslo chyby
+            echo '<p> Nepodařilo se navázat spojení s databází </p>';
+            exit;
+        }
+        //kouknou se zda existuje
+
+        $query = "SELECT identification_number FROM patient_account WHERE identification_number = $id";
+
+            try
+            {
+                //zkusím provést příkaz
+
+                $stmt = $db->prepare($query);
+                $stmt->execute();
+                $stmt->store_result();
+                $stmt->bind_result($id_from_db);
+                $stmt->fetch();
+            }
+            catch(PDOException $err)
+            {
+                //pokud rodné číslo neexistuje zachytím vyjímku
+
+                echo $err->getMessage();
+                return false;
+            }
+            if(empty($id_from_db))
+            {
+                //uživatel hledá pacienta, který neexistuje
+
+                return false;
+            }
+
+            return true;
+
+
+        //kontrola jestli r.č existuje v databázi
+    }
+
+    function getName($id)
+    {
+        @$db = new mysqli('localhost', 'root', '', 'svacekhealth'); 
+
+        if(mysqli_connect_errno() != 0)
+        {
+            //spojení se nepodařilo, protože funkce vrátila číslo různé od nuly => číslo chyby
+            echo '<p> Nepodařilo se navázat spojení s databází </p>';
+            exit;
+        }
+    
+        //získáni dat z tabulky - patient_account
+        $query = "SELECT surname, lastname FROM patient_account WHERE identification_number = $id";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($jmeno, $prijmeni);
+        $stmt->fetch();
+    
+        echo $jmeno, $prijmeni;
+    
+        $values = array($jmeno, $prijmeni, $id);
+        return $values;
+    }
+
 ?>

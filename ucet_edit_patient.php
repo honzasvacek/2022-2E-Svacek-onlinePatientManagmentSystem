@@ -61,7 +61,7 @@
                     return false;
                 }
                     
-                //zjistím zda náhodou daný pacient již neexistuje
+                //zjistím zda daný pacient existuje
 
                 //připravím dotaz
                 $query = "SELECT identification_number FROM patient_account WHERE identification_number = $id";

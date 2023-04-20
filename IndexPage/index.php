@@ -9,8 +9,8 @@
 </head>
 <body>
 <?php
-    require("page.php");
-    require("functions.php");
+    require($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
+    require($_SERVER['DOCUMENT_ROOT'].'/Page/functions.php');
 
     //kontrola přihlášení
     $username = $_POST['prihlasovaci_jmeno'];
@@ -22,7 +22,7 @@
     {
         //nepustím uživatele na domovskou stránku
 
-        header("Location: login.php");
+        header("Location: ../Login/login.php");
     }
     
     $domovska_stranka = new stranka();

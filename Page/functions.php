@@ -185,8 +185,6 @@
         $stmt->bind_result($jmeno, $prijmeni);
         $stmt->fetch();
     
-        echo $jmeno, $prijmeni;
-    
         $values = array($jmeno, $prijmeni, $id);
         return $values;
     }

@@ -11,7 +11,7 @@
 
 <?php
     //potřebné soubory
-    require("page.php");
+    require($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
     require("ucet_obsah.php");
 
     class ucet_edit_patient extends ucet_obsah

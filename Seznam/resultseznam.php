@@ -12,7 +12,7 @@
 </body>
 </html>
 <?php
-require("page.php");
+require_once($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
 require("seznamtable.php");
 
 $domovska_stranka = new stranka();

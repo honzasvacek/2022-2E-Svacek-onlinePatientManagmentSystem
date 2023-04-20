@@ -5,30 +5,30 @@
         //vlastnosti, které budeme chtít na dalších stránkách měnit
         public $obsah;
         public $titulek = "Svacek Health";
-        public $tlacitka = array("Seznam" => "seznam.php", //klíč - jméno tlačítka, //hodnota - url adresa, na kterou odkazují
-                                 "Účet" => "ucet.php", 
-                                 "Karta" => "karta.php", 
-                                 "Chorobopis" => "Chorobopis/chorobopis.php", 
-                                 "Recept" => "recept.php"
+        public $tlacitka = array("Seznam" => "../Seznam/seznam.php", //klíč - jméno tlačítka, //hodnota - url adresa, na kterou odkazují
+                                 "Účet" => "../Účet/ucet.php", 
+                                 "Karta" => "../Karta/karta.php", 
+                                 "Chorobopis" => "../Chorobopis/chorobopis.php", 
+                                 "Recept" => "../Recepty/recept.php"
                                 );
-        public $vyhledavaci_pole = array("/seznam.php" => "resultseznam.php", //klíč - současná url adresa, //hodnota - url adresa, na kterou budou odkazovat
-                                        "/ucet.php" => "ucet.php",
-                                        "/karta.php" => "resultkarta.php",
-                                        "/chorobopis.php" => "resultchorobopis.php",
-                                        "/recept.php" => "resultrecept.php",
-                                        "/resultseznam.php" => "resultseznam.php",
-                                        "/resultucet.php" => "resultucet.php",
-                                        "/resultkarta.php" => "resultkarta.php",
-                                        "/resultchorobopis.php" => "resultchorobopis.php",
-                                        "/resultrecept.php" => "resultrecept.php",
+        public $vyhledavaci_pole = array("/Seznam/seznam.php" => "resultseznam.php", //klíč - současná url adresa, //hodnota - url adresa, na kterou budou odkazovat
+                                        "/Účet/ucet.php" => "ucet.php",
+                                        "/Karta/karta.php" => "resultkarta.php",
+                                        "/Chorobopis/chorobopis.php" => "resultchorobopis.php",
+                                        "/Recepty/recept.php" => "resultrecept.php",
+                                        "/Seznam/resultseznam.php" => "resultseznam.php",
+                                        "/Účet/resultucet.php" => "resultucet.php",
+                                        "/Karta/resultkarta.php" => "resultkarta.php",
+                                        "/Chorobopis/resultchorobopis.php" => "resultchorobopis.php",
+                                        "/Účet/resultrecept.php" => "resultrecept.php",
                                         "/index.php" => "index.php",
-                                        "/ucet_add_patient.php" => "ucet_add_patient.php",
-                                        "/ucet_edit_patient.php" => "ucet_edit_patient.php",
-                                        "/ucet_delete_patient.php" => "ucet_delete_patient.php",
-                                        "/ucet_add_patient_save.php" => "ucet_add_patient.php",
-                                        "/ucet_edit_patient_save.php" => "ucet_edit_patient.php",
-                                        "/ucet_delete_patient_save.php" => "ucet_delete_patient.php",
-                                        "/chorobopis_addrecord.php" => "chorobopis_addrecord.php"
+                                        "/Účet/ucet_add_patient.php" => "ucet_add_patient.php",
+                                        "/Účet/ucet_edit_patient.php" => "ucet_edit_patient.php",
+                                        "/Účet/ucet_delete_patient.php" => "ucet_delete_patient.php",
+                                        "/Účet/ucet_add_patient_save.php" => "ucet_add_patient.php",
+                                        "/Účet/ucet_edit_patient_save.php" => "ucet_edit_patient.php",
+                                        "/Účet/ucet_delete_patient_save.php" => "ucet_delete_patient.php",
+                                        "/Chorobopis/chorobopis_addrecord.php" => "chorobopis_addrecord.php"
                                     );
 
         function __set($name, $value)
@@ -58,8 +58,8 @@
         public function zobrazení_stylu()
         {
             ?>
-            <link href="sidebar.css"  rel="stylesheet">
-            <link href="header.css"  rel="stylesheet">
+            <link href="../Page/sidebar.css"  rel="stylesheet">
+            <link href="../Page/header.css"  rel="stylesheet">
             <?php
         }
 
@@ -69,16 +69,16 @@
             <form method="post" action="<?=$this->nastaveni_akce($this->vyhledavaci_pole)?>">
             <div class="header">
                 <div class="left_section">
-                    <a href="index.php">
-                        <img class="logo_picture" src="Pictures/SHPictureLogo.PNG">
+                    <a href="../IndexPage/index.php">
+                        <img class="logo_picture" src="../Pictures/Header-buttons/SHPictureLogo.PNG">
                     </a>
-                    <img class="logo_svacek" src="Pictures/SvacekLogo.PNG">
+                    <img class="logo_svacek" src="../Pictures/Header-buttons/SvacekLogo.PNG">
                 </div>
                 <div class="middle_section">
                     <?php $this->zobrazeni_searchbaru() ?>
                 </div>
                 <div class="right_section">
-                    <img class="logo_health" src="Pictures/HealthLogo.PNG" alt="">
+                    <img class="logo_health" src="../Pictures/Header-buttons/HealthLogo.PNG" alt="">
                 </div>
             </div>
             </form>
@@ -131,7 +131,7 @@
                 ?>
                 <div class="menuitem" data-tooltip="<?=$jmeno?>">
                     <a href="<?=$url?>">
-                        <img class="<?=mb_strtolower($jmeno)?>" src="Pictures/<?=mb_strtolower($jmeno)?>.png">
+                        <img class="<?=mb_strtolower($jmeno)?>" src="../Pictures/Sidebar-buttons/<?=mb_strtolower($jmeno)?>.png">
                     </a>
                 </div>
                 <?php
@@ -141,7 +141,7 @@
                    ?>
                     <div style="background-color:lightslategray;" class="menuitem" data-tooltip="<?=$jmeno?>">
                         <a href="<?=$url?>">
-                            <img class="<?=mb_strtolower($jmeno)?>" src="Pictures/<?=mb_strtolower($jmeno)?>.png">
+                            <img class="<?=mb_strtolower($jmeno)?>" src="../Pictures/Sidebar-button/<?=mb_strtolower($jmeno)?>.png">
                         </a>
                     </div>
                    <?php

@@ -13,9 +13,9 @@
 
 <?php
     //potřebné soubory
-    require("page.php");
+    require_once($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
     require("karta_class.php");
-    require("functions.php");
+    require_once($_SERVER['DOCUMENT_ROOT'].'/Page/functions.php');
 
     //generování stránky
     $domovska_stranka = new stranka();

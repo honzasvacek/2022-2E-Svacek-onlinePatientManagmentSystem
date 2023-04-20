@@ -10,9 +10,9 @@
 <body>
 
 <?php
-    require("page.php");
+    require_once($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
+    require_once($_SERVER['DOCUMENT_ROOT'].'/Page/functions.php');
     require("zobrazeni_tabluky.php");
-    require("functions.php");
 
     class chorobopis_addrecord extends zobrazeni_tabluky
     {

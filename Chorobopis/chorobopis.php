@@ -10,7 +10,7 @@
 <body>
 
 <?php
-    require_once($_SERVER['DOCUMENT_ROOT'].'page.php');
+    require_once($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
     require("chorobopis_obsah.php");
 
     $domovska_stranka = new stranka();

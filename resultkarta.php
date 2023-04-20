@@ -46,6 +46,7 @@
 
             //spojení na databázi
             @$db = new mysqli('localhost', 'root', '', 'svacekhealth');
+            
             if(mysqli_connect_errno() != 0)
             {
                 //spojení se nepodařilo, protože funkce vrátila číslo různé od nuly => číslo chyby

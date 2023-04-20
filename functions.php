@@ -191,4 +191,60 @@
         return $values;
     }
 
+    function err_msg($h2, $p)
+    {
+        ?>
+            <div class="popup-image">
+                <div class="message">
+                    <span>&times;</span> 
+                    <h2><?php echo $h2?></h2>
+                    <p id="id_exist_p"><?php echo $p ?></p>
+                </div>
+            </div>
+            <script>
+                //zobrazení popupu
+                document.querySelector('.popup-image').style.display = 'block';
+            </script>
+        <?php
+    }
+
+    function connect_to_database()
+    {
+        //spojení na databázi
+        @$db = new mysqli('localhost', 'root', '', 'svacekhealth');
+            
+        if(mysqli_connect_errno() != 0)
+        {
+            //spojení se nepodařilo, protože funkce vrátila číslo různé od nuly => číslo chyby
+            return 0;
+        }
+
+        return $db;
+    }
+
+    function get_name_from_database($db, $id)
+    {
+        $jmeno = "";
+        $prijmeni = "";
+        //získáni dat z tabulky - patient_account
+        $query = "SELECT surname, lastname FROM patient_account WHERE identification_number = $id";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($jmeno, $prijmeni);
+        $stmt->fetch();
+
+        $names = array($jmeno, $prijmeni);
+        return $names;
+    }
+
+    function format_id($id)
+    {
+        $first6 = substr($id, 0, 6);
+        $last4 = substr($id, 6); 
+        $formated_id = "$first6/$last4";
+
+        return $formated_id;
+    }
+
 ?>

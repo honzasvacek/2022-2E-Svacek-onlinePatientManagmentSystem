@@ -10,13 +10,13 @@
 <body>
 
 <?php
-    require("page.php");
+    require_once($_SERVER['DOCUMENT_ROOT'].'page.php');
     require("chorobopis_obsah.php");
 
     $domovska_stranka = new stranka();
     $obsah = new chorobopis_obsah();
 
-    $domovska_stranka->obsah =$obsah->zobrazeni_obsahu("Vyhledejte pacienta");
+    $domovska_stranka->obsah =$obsah->zobrazeni_obsahu("Vyhledejte pacienta", "", 0);
     $domovska_stranka->zobrazeni_stranky();
 ?>
 

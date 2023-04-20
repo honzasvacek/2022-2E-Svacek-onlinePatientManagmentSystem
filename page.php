@@ -8,7 +8,7 @@
         public $tlacitka = array("Seznam" => "seznam.php", //klíč - jméno tlačítka, //hodnota - url adresa, na kterou odkazují
                                  "Účet" => "ucet.php", 
                                  "Karta" => "karta.php", 
-                                 "Chorobopis" => "chorobopis.php", 
+                                 "Chorobopis" => "Chorobopis/chorobopis.php", 
                                  "Recept" => "recept.php"
                                 );
         public $vyhledavaci_pole = array("/seznam.php" => "resultseznam.php", //klíč - současná url adresa, //hodnota - url adresa, na kterou budou odkazovat
@@ -27,7 +27,8 @@
                                         "/ucet_delete_patient.php" => "ucet_delete_patient.php",
                                         "/ucet_add_patient_save.php" => "ucet_add_patient.php",
                                         "/ucet_edit_patient_save.php" => "ucet_edit_patient.php",
-                                        "/ucet_delete_patient_save.php" => "ucet_delete_patient.php"
+                                        "/ucet_delete_patient_save.php" => "ucet_delete_patient.php",
+                                        "/chorobopis_addrecord.php" => "chorobopis_addrecord.php"
                                     );
 
         function __set($name, $value)

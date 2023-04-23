@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Účet - odebrání</title>
     <link rel="stylesheet" href="ucet.css">
+    <link rel="stylesheet" href="../Page/popup.css">
 </head>
 <body>
 
 <?php
     //potřebné soubory
     require_once($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
+    
     require("ucet_obsah.php");
 
     class ucet_delete_patient extends ucet_obsah
@@ -268,16 +270,7 @@
     $ucet_obsah = new ucet_delete_patient();
 
     $domovska_stranka->obsah =$ucet_obsah->ucet_obsah("Smazání pacienta", "ucet_delete_patient_save.php");
-    $domovska_stranka->zobrazeni_stranky();
+    $domovska_stranka->zobrazeni_stranky(true);
 ?>
-
-        <script>
-            //nastavím spanu, což je křížek, akci onclick
-            document.querySelector('.popup-image span').onclick = () =>
-            {
-                //když se spustí onclick schovám popup
-                document.querySelector('.popup-image').style.display = 'none';
-            }
-        </script>
-
 </body>
+</html>

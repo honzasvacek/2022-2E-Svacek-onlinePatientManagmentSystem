@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Karta</title>
     <link rel="stylesheet" href="karta.css">
-    <link rel="stylesheet" href="popup_message/popup_styles.css">
+    <link rel="stylesheet" href="../Page/popup.css">
 
 </head>
 <body>
@@ -23,7 +23,14 @@
 
     //příprava parametrů
     $values = ziskani_hodnot_databaze();
-    $titel = "$values[0] $values[1] rč.$values[2]";
+
+    if(empty($values[0]))
+    {
+        $titel = "";
+    } else {
+        $titel = "- $values[0] $values[1] rč.$values[2]";
+    }
+    
     if(getAge($values[2], $values[3]) < 15)
     {
         $contacts = array("Telefonní číslo zákonného zástupce", "E-mail zákonného zástupce");
@@ -32,8 +39,8 @@
     }
     
 
-    $domovska_stranka->obsah = $obsah_karty->zobrazeni_karty($values, $titel, $contacts);
-    $domovska_stranka->zobrazeni_stranky();
+    $stranka->obsah = $obsah_karty->zobrazeni_karty($values, $titel, $contacts);
+    $stranka->zobrazeni_stranky(true);
 
     
     function ziskani_hodnot_databaze()
@@ -44,84 +51,16 @@
             //uložím si rodné číslo hledaného pacienta
             $id = trim($_POST['rodne_cislo']);
 
-            //spojení na databázi
-            @$db = new mysqli('localhost', 'root', '', 'svacekhealth');
-            
-            if(mysqli_connect_errno() != 0)
+            if(!patientExist($id))
             {
-                //spojení se nepodařilo, protože funkce vrátila číslo různé od nuly => číslo chyby
-                echo '<p> Nepodařilo se navázat spojení s databází </p>';
-                exit;
-            }
-            
-            //zkontroluju jestli je rodné číslo typu int
-            if(!is_numeric($id))
-            {
-                //uživatel zadal rodné číslo jinými znaky než číslo
-
-            ?>
-                <div class="popup-image">
-                    <div class="message">
-                        <span>&times;</span> 
-                        <h2>Hledání - Neúspěšné</h2>
-                        <p id="id_exist_p">*Zadejte rodné číslo ve formátu RRMMDDXXXX</p>
-                    </div>
-                </div>
-                <script>
-                    //zobrazení popupu
-                    document.querySelector('.popup-image').style.display = 'block';
-                </script>
-            <?php
-
-            $values = array("","","","","","","","","","","","","","","","","");
-            return $values;
-            }
-            //zkontroluju jestli je rodné číslo v databázi
-
-            //připravím dotaz
-            $query = "SELECT identification_number FROM patient_account WHERE identification_number = $id";
-
-            try
-            {
-                //zkusím provést příkaz
-
-                $stmt = $db->prepare($query);
-                $stmt->execute();
-                $stmt->store_result();
-                $stmt->bind_result($id_from_db);
-                $stmt->fetch();
-            }
-            catch(PDOException $err)
-            {
-                //pokud rodné číslo neexistuje zachytím vyjímku
-
-                echo $err->getMessage();
-                $values = array("","","","","","","","","","","","","","","","","");
+                err_msg("Hledání - Neúspěšné", "Pacient s vyplěným rodným číslem neexistuje");
+                $values = array("","","","","","","","","","","","","","","","","","", "");
                 return $values;
             }
-            //zkkontroluji výsledek
-            if(empty($id_from_db))
-            {
-                //uživatel zadal rodné číslo jinými znaky než číslo
 
-                ?>
-                <div class="popup-image">
-                    <div class="message">
-                        <span>&times;</span> 
-                        <h2>Hledání - Neúspěšné</h2>
-                        <p id="id_exist_p">*Pacient s tímto rodným číslem není v databázi</p>
-                    </div>
-                </div>
-                <script>
-                    //zobrazení popupu
-                    document.querySelector('.popup-image').style.display = 'block';
-                </script>
-            <?php
-
-            $values = array("","","","","","","","","","","","","","","","","");
-            return $values;
-            }
-            
+            //spojení na databázi
+            $db = connect_to_database();
+ 
             //získáni dat z tabulky - patient_account
             $query = "SELECT surname, lastname FROM patient_account WHERE identification_number = $id";
             $stmt = $db->prepare($query);
@@ -162,12 +101,5 @@
 
     
 ?>
-    <script>
-        //nastavím spanu, což je křížek, akci on
-    document.querySelector('.popup-image span').onclick = () =>
-    {
-        document.querySelector('.popup-image').style.display = 'none';
-    }
-    </script>
-
 </body>
+</html>

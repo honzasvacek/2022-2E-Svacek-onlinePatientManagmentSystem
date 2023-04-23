@@ -11,13 +11,14 @@ class zobrazeni_tabluky extends chorobopis_obsah
             //rodné číslo získám z vyhledávacího pole
 
             $id = $_POST['rodne_cislo'];
-        } else if($type == 2)
-          {
-              //rodné číslo získám z input pole
+        } 
+        else if($type == 2)
+        {
+            //rodné číslo získám z input pole
 
-              $id = $_POST['id-input'];
-          }
-
+            $id = $_POST['id-input'];
+        } 
+  
         //data z databáze
         @$db = new mysqli('localhost', 'root', '', 'svacekhealth'); 
 
@@ -34,11 +35,19 @@ class zobrazeni_tabluky extends chorobopis_obsah
         if(patientExist($id))
         {
             $query = "SELECT date, physical_examination FROM medical_records WHERE identification_number = $id";
-            $stmt = $db->prepare($query);
-            $stmt->execute();
-            $stmt->store_result();
-            $stmt->bind_result($datum, $vysetreni);
 
+            try
+            {
+                $stmt = $db->prepare($query);
+                $stmt->execute();
+                $stmt->store_result();
+                $stmt->bind_result($datum, $vysetreni);
+            }
+            catch(PDOException $err)
+            {
+                return 0;
+            }
+    
             while($stmt->fetch())
             {
                 if($i % 2 == 0)
@@ -57,24 +66,7 @@ class zobrazeni_tabluky extends chorobopis_obsah
                 $i++;
             }
 
-        } else {
-
-            ?>
-                <div class="popup-image">
-                    <div class="message">
-                        <span>&times;</span> <!-- html entita, která vytvoří symbol křížku -->
-                        <h2>Hledání - Neúspěšné</h2>
-                        <p style="margin-bottom: 0;">
-                            *Zkontrolujte prosím znovu, zda jste zadali rodné číslo správně. 
-                        </p>
-                        <p>
-                        Parametry rodného čísla nejsou správné
-                        </p>
-                    </div>
-                </div>
-                <script>document.querySelector('.popup-image').style.display = 'block';</script>
-            <?php
-        }
+        } 
 
         if($i < 11)
         {
@@ -116,12 +108,6 @@ class zobrazeni_tabluky extends chorobopis_obsah
         }
 
         $db = NULL;
-
-        //nastavení jedotlivých řádku tak, aby na ně šlo kliknout
-
-        ?>
-
-        <?php
 
     }
 

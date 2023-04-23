@@ -107,13 +107,26 @@
             $stmt->fetch();
         }
 
-        if(($username == $name_db) && ($password == $pass_db))
+        if(($username == $name_db) && (password_verify($password, $pass_db)))
         {
+            if($username == "admin")
+            {
+                return 2;
+            }
             return 1;
         }
         else {
             return 0;
         }
+    }
+
+    function parametersID($id)
+    {
+        if(!((strlen($id) == 10) && ((intval($id) % 11) == 0) && (is_numeric($id))))
+        {
+            return false;
+        }
+        return true;
     }
 
     function patientExist($id)
@@ -243,6 +256,35 @@
         $formated_id = "$first6/$last4";
 
         return $formated_id;
+    }
+
+    function chorobopis_send()
+    {
+        //získání rodného číslo a denního záznamu
+        @$id = $_POST['id-input'];
+        @$examination = $_POST['examination-input'];
+
+        if(empty($id) OR empty($examination))
+        {
+            //uživatel nevyplnil některé údaje
+            err_msg("Odeslání neúspěšné","Nevyplnili jste všechny údaje");
+            return 0;
+        }
+
+        if(patientExist($id) == false)
+        {
+            err_msg("Odeslání neúspěšné","Pacient s vyplněným rodným číslem neexistuje");
+            return 0;
+        }
+
+        $db = connect_to_database();
+
+        //získání dat z databáze
+
+        $query = "INSERT INTO medical_records (identification_number, physical_examination) VALUES(?, ?)";
+        $stmt = $db->prepare($query);
+        $stmt->bind_param('is', $id, $examination);
+        $stmt->execute();
     }
 
 ?>

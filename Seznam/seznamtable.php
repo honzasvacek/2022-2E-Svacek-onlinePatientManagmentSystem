@@ -6,12 +6,6 @@
             $this->zobrazeni_tabulky($jeHledano);
         }
 
-        public function je_v_databazi($x)
-        {
-            //musím zjistit zda je v databázi
-            return true;
-        }
-
         public function zobrazeni_tabulky($jeHledano)
         {
             //vytvářím připojení k databázi
@@ -31,15 +25,6 @@
             $stmt->store_result(); //uložím výsledek do mezipaměti
             $stmt->bind_result($jmeno, $prijmeni, $rodnecislo); //vázané proměnné k jednotlivým sloupcům
 
-            //výpis výsledků
-            if($_SERVER['REQUEST_METHOD'] == "POST")
-            {
-                //uložím si si hledané rodné číslo
-                $rodnecislo_post = trim($_POST['rodne_cislo']);
-            }
-            
-            //pokud je v databázi provedu vypsání tabulky
-
             //začátek tabulky
             echo "<div class=\"container\">";
             echo "<div class=\"tableOuterBorder\">";
@@ -58,12 +43,11 @@
             {
                 //dokud je co číst budu vypisovat řádky z daty
 
-                //x
                 if($jeHledano)
                 {
                     //uživatel zadal do pole rodné číslo
 
-                    if($rodnecislo_post == $rodnecislo)
+                    if(trim($_POST['rodne_cislo']) == $rodnecislo)
                     {
                         //rodné číslo pacienta JE současně hledané rodné číslo uživatelem => změním barvu jeho pozadí
 
@@ -133,29 +117,6 @@
             echo "</table>";
             echo "</div>";
             echo "</div>";
-            
-        
-            if($jeHledano && $this->je_v_databazi($rodnecislo_post) == false)
-            {
-                //pokud není v databázi vypíšu zprávu, že pacient není v databázi
-
-                ?>
-                    <div class="popup-image">
-                        <div class="message">
-                            <span>&times;</span> <!-- html entita, která vytvoří symbol křížku -->
-                            <h2>Hledání - Neúspěšné</h2>
-                            <p>
-                                *Pacient není evidován v databázi
-                            </p>
-                        </div>
-                    </div>
-
-                    <script>document.querySelector('.popup-image').style.display = 'block';</script>
-
-                <?php
-
-            }
-        
 
         }
 

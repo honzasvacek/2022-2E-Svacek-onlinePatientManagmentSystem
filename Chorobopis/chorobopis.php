@@ -10,15 +10,25 @@
 <body>
 
 <?php
-    require_once($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
+    require($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
+    require($_SERVER['DOCUMENT_ROOT'].'/Page/functions.php');
     require("chorobopis_obsah.php");
 
+    class chorobopis extends chorobopis_obsah
+    {
+        public function ziskani_dat()
+        {
+            chorobopis_send();
+        }
+    }
+
     $domovska_stranka = new stranka();
-    $obsah = new chorobopis_obsah();
+    $obsah = new chorobopis();
 
     $domovska_stranka->obsah =$obsah->zobrazeni_obsahu("Vyhledejte pacienta", "", 0);
-    $domovska_stranka->zobrazeni_stranky();
+    $domovska_stranka->zobrazeni_stranky(true);
 ?>
 
 </body>
+
 </html>

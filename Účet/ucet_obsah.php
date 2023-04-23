@@ -50,33 +50,7 @@
 
         public function dynamicke_zobrazeni_policek($arr)
         {
-            /*$i = 0;
-            foreach($arr as $dbname => $czname)
-            {
-                if($i == 0)
-                {
-                    //chci pritnout první div
-                    echo "<div class=\"left-div\">";
-                    echo "<h2>Základní údaje</h2>";
-                }
-                if($i==3)
-                {
-                    //chci pritnout druhý div a ukončit první
-                    echo "</div>";
-                    echo "<div class=\"middle-div\">";
-                    echo "<h2>Kontakt</h2>";
-                }
-                if($i==10)
-                {
-                    //chci pritnout třetí div a ukončit druhý
-                    echo "</div>";
-                    echo "<div class=\"right-div\">";
-                    echo "<h2>Zdravotní údaje</h2>";
-                }
-                echo "<p class=\"info\">$czname</p>";
-                echo "<input class=\"input_field\" value=\"\" type=\"text\" name=\"$dbname\">";
-                $i++;
-            }*/
+            
         }
 
         public function zobrazeni_prazdnych_policek($arr)

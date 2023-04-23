@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Účet - přidání</title>
     <link rel="stylesheet" href="ucet.css">
+    <link rel="stylesheet" href="../Page/popup.css">
 </head>
 <body>
 
@@ -29,19 +30,11 @@
         }
     }
 
-    class stranka_ucet_add extends stranka
-    {
-        public function zobrazeni_searchbaru()
-        {
-            //nevypním nic ,takže se nezobrazí a to chci
-        }
-    }
-
     //vypsání obsahu
-    $domovska_stranka = new stranka_ucet_add();
+    $domovska_stranka = new stranka();
     $ucet_obsah = new ucet_add_patient();
 
     $domovska_stranka->obsah =$ucet_obsah->ucet_obsah("Přidání pacienta", "ucet_add_patient_save.php");
-    $domovska_stranka->zobrazeni_stranky();
+    $domovska_stranka->zobrazeni_stranky(false);
 ?>
 </body>

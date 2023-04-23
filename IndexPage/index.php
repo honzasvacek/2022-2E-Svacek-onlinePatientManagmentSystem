@@ -16,13 +16,17 @@
     $username = $_POST['prihlasovaci_jmeno'];
     $password = $_POST['heslo'];
     $id = $_POST['id'];
-   
 
-    if(checkLogin($id, $username, $password) == 0)
+    $result = checkLogin($id, $username, $password);
+    if($result == 0)
     {
         //nepustím uživatele na domovskou stránku
 
         header("Location: ../Login/login.php");
+    } elseif($result == 2) {
+        //admin
+
+        header("Location: ../IndexPage/admin.php");
     }
     
     $domovska_stranka = new stranka();
@@ -30,7 +34,7 @@
     $domovska_stranka->obsah ="
     <h1>Vítejte na domovké stránce vítáme vás</h1>";
 
-    $domovska_stranka->zobrazeni_stranky();
+    $domovska_stranka->zobrazeni_stranky(true);
 ?>
     </body>
 </html>

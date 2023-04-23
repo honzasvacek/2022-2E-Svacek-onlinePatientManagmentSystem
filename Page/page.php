@@ -21,33 +21,35 @@
                                         "/Karta/resultkarta.php" => "resultkarta.php",
                                         "/Chorobopis/resultchorobopis.php" => "resultchorobopis.php",
                                         "/Účet/resultrecept.php" => "resultrecept.php",
-                                        "/index.php" => "index.php",
                                         "/Účet/ucet_add_patient.php" => "ucet_add_patient.php",
                                         "/Účet/ucet_edit_patient.php" => "ucet_edit_patient.php",
                                         "/Účet/ucet_delete_patient.php" => "ucet_delete_patient.php",
                                         "/Účet/ucet_add_patient_save.php" => "ucet_add_patient.php",
                                         "/Účet/ucet_edit_patient_save.php" => "ucet_edit_patient.php",
                                         "/Účet/ucet_delete_patient_save.php" => "ucet_delete_patient.php",
-                                        "/Chorobopis/chorobopis_addrecord.php" => "chorobopis_addrecord.php"
+                                        "/Chorobopis/chorobopis_addrecord.php" => "resultchorobopis.php",
+                                        "/IndexPage/index.php" => "",
+                                        "/IndexPage/admin.php" => "",
+                                        "/IndexPage/admin_send.php" => ""
                                     );
 
         function __set($name, $value)
         {
-            //doplnit kontrolu hodnot
             $this->name = $value;
         }
 
-        public function zobrazeni_stranky()
+        public function zobrazeni_stranky($searchbar)
         {
             echo "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n"; //začátek stránky v html
             $this->zobrazení_titulku();
             echo "<meta charset=\"UTF-8\">";
             $this->zobrazení_stylu();
             echo "</head>\n<body class=\"body\">\n";
-            $this->zobrazeni_zahlavi();
+            $this->zobrazeni_zahlavi($searchbar);
             echo $this->obsah;
             $this->zobrazeni_navpanelu($this->tlacitka);
             echo "</body>\n</html>\n";
+            ?> <script src="../Page/popup.js"></script> <?php
         }
 
         public function zobrazení_titulku()
@@ -63,22 +65,27 @@
             <?php
         }
 
-        public function zobrazeni_zahlavi()
+        public function zobrazeni_zahlavi($searchbar)
         {
             ?>
             <form method="post" action="<?=$this->nastaveni_akce($this->vyhledavaci_pole)?>">
             <div class="header">
                 <div class="left_section">
                     <a href="../IndexPage/index.php">
-                        <img class="logo_picture" src="../Pictures/Header-buttons/SHPictureLogo.PNG">
+                        <img class="logo_picture" src="../Pictures/Header-buttons/SHSymbolLogo.PNG">
                     </a>
-                    <img class="logo_svacek" src="../Pictures/Header-buttons/SvacekLogo.PNG">
+                    <img class="logo_svacek" src="../Pictures/Header-buttons/SHSvacek.PNG">
                 </div>
                 <div class="middle_section">
-                    <?php $this->zobrazeni_searchbaru() ?>
+                    <?php 
+                    if($searchbar == true)
+                    {
+                        $this->zobrazeni_searchbaru(); 
+                    }
+                    ?>
                 </div>
                 <div class="right_section">
-                    <img class="logo_health" src="../Pictures/Header-buttons/HealthLogo.PNG" alt="">
+                    <img class="logo_health" src="../Pictures/Header-buttons/SHHealth.PNG" alt="">
                 </div>
             </div>
             </form>

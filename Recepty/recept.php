@@ -65,20 +65,12 @@
         }
     }
 
-    require_once($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
+    require($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
 
-    class stranka_recept extends stranka
-    {
-        public function zobrazeni_searchbaru()
-        {
-
-        }
-    }
-
-    $domovska_stranka = new stranka_recept();
+    $domovska_stranka = new stranka();
     $obsah = new recept;
 
     $domovska_stranka->obsah = $obsah->zobrazeni_obsahu_receptu();
-    $domovska_stranka->zobrazeni_stranky();
+    $domovska_stranka->zobrazeni_stranky(false);
 ?>
 </body>

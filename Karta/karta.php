@@ -25,7 +25,7 @@
     $contacts = array("Telefonní číslo", "E-mail");
     $domovska_stranka->obsah = $obsah->zobrazeni_karty($values, "vyhledejte požadovaného pacienta", $contacts);
 
-    $domovska_stranka->zobrazeni_stranky();
+    $domovska_stranka->zobrazeni_stranky(true);
 ?>
 
 </body>

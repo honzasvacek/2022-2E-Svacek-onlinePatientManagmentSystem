@@ -32,7 +32,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
             <div class="up_left_container">
 
             </div>
-            <form class="tableOfOrders" action="index.php" method="POST">
+            <form class="tableOfOrders" action="../IndexPage/index.php" method="POST">
             <p class="svacekhealth_text">SVACEK HEALTH - Přihlášení</p>
                 <div class="id_container">
                     <p class="username">ID</p>
@@ -55,7 +55,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
             </div>
         </div>
         <div class="right_container">
-            <img class="logo" src="Pictures/SvacekHealthLogo.PNG">
+            <img class="logo" src="../Pictures/Header-buttons/SvacekHealthLogo.PNG">
         </div>
     </div>
 </body>

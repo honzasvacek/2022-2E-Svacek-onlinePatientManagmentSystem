@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Účet - upravení</title>
     <link rel="stylesheet" href="ucet.css">
+    <link rel="stylesheet" href="../Page/popup.css">
 </head>
 <body>
 
 <?php
     //potřebné soubory
     require($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
+    require("../Page/functions.php");
     require("ucet_obsah.php");
 
     class ucet_edit_patient extends ucet_obsah
@@ -35,73 +37,20 @@
             {
                 //připojení na databázi
 
-                $db = new mysqli('localhost', 'root', '', 'svacekhealth');
-
-                //$id = $_POST['identification_number'];
+                $db = connect_to_database();
 
                 //zkontroluju, zda rodné číslo splňuje parametry rodného čísla
-                if(!((strlen($id) == 10) && ((intval($id) % 11) == 0) && (is_numeric($id))))
+                if(parametersID($id) == false)
                 {
-                    //rodné číslo neodpovídá parametrům, takže vypíšu zprávu a skončím
-                    ?>
-                        <div class="popup-image">
-                            <div class="message">
-                                <span>&times;</span> <!-- html entita, která vytvoří symbol křížku -->
-                                <h2>Hledání - Neúspěšné</h2>
-                                <p style="margin-bottom: 0;">
-                                    *Zkontrolujte prosím znovu, zda jste zadali rodné číslo správně. 
-                                </p>
-                                <p>
-                                Parametry rodného čísla nejsou správné
-                                </p>
-                            </div>
-                        </div>
-                        <script>document.querySelector('.popup-image').style.display = 'block';</script>
-                    <?php
+                    err_msg("Hledání - Neúspěšné","Zkontrolujte prosím znovu, zda jste zadali rodné číslo správně");
                     return false;
                 }
                     
-                //zjistím zda daný pacient existuje
-
-                //připravím dotaz
-                $query = "SELECT identification_number FROM patient_account WHERE identification_number = $id";
-
-                try
+                if(patientExist($id) == false)
                 {
-                    //zkusím provést příkaz
-
-                    $stmt = $db->prepare($query);
-                    $stmt->execute();
-                    $stmt->store_result();
-                    $stmt->bind_result($id_from_db);
-                    $stmt->fetch();
-                }
-                catch(PDOException $err)
-                {
-                    //pokud rodné číslo neexistuje zachytím vyjímku
-
-                    echo $err->getMessage();
+                    err_msg("Hledání - Neúspěšné","Pacient s vyplněným rodným číslem neexistuje");
                     return false;
-                }
-                if(empty($id_from_db))
-                {
-                    //uživatel hledá pacienta, který neexistuje
-
-                    ?>
-                        <div class="popup-image">
-                            <div class="message">
-                                <span>&times;</span> 
-                                <h2>Hledání - Neúspěšné</h2>
-                                <p id="id_exist_p">*Pacient s vyplněným rodným číslem neexistuje</p>
-                            </div>
-                        </div>
-                        <script>
-                            //zobrazení popupu
-                            document.querySelector('.popup-image').style.display = 'block';
-                        </script>
-                    <?php
-                    return false;
-                }
+                }  
             }
             else
             {
@@ -146,13 +95,8 @@
             else
             {
                 //spojení na databázi
-                @$db = new mysqli('localhost', 'root', '', 'svacekhealth');
-                if(mysqli_connect_errno() != 0)
-                {
-                    //spojení se nepodařilo, protože funkce vrátila číslo různé od nuly => číslo chyby
-                    echo '<p> Nepodařilo se navázat spojení s databází </p>';
-                    exit;
-                }
+                $db = connect_to_database();
+                
                 //získáni dat z tabulky - patient_account
                 $query = "SELECT surname, lastname FROM patient_account WHERE identification_number = $id";
                 $stmt = $db->prepare($query);
@@ -222,16 +166,7 @@
 
     $domovska_stranka->obsah =$ucet_obsah->ucet_obsah("Úprava pacietna", "ucet_edit_patient_save.php");
 
-    $domovska_stranka->zobrazeni_stranky();
+    $domovska_stranka->zobrazeni_stranky(true);
 ?>
-
-    <script>
-            //nastavím spanu, což je křížek, akci onclick
-            document.querySelector('.popup-image span').onclick = () =>
-            {
-                //když se spustí onclick schovám popup
-                document.querySelector('.popup-image').style.display = 'none';
-            }
-        </script>
-
 </body>
+</html>

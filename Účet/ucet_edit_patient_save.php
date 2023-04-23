@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Účet - uložení úprav</title>
     <link rel="stylesheet" href="ucet.css">
+    <link rel="stylesheet" href="../Page/popup.css">
 </head>
 <body>
 
@@ -257,16 +258,8 @@
  
      $domovska_stranka->obsah =$ucet_obsah->ucet_obsah("Pacient", "ucet_edit_patient_save.php");
  
-     $domovska_stranka->zobrazeni_stranky();
-    ?>
-        <script>
-            //nastavím spanu, což je křížek, akci onclick
-            document.querySelector('.popup-image span').onclick = () =>
-            {
-                //když se spustí onclick schovám popup
-                document.querySelector('.popup-image').style.display = 'none';
-            }
-        </script>
-        
+     $domovska_stranka->zobrazeni_stranky(true);
+    ?>        
 </body>
+</html>
         

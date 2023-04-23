@@ -73,6 +73,7 @@
     margin-right: 50px;
     border-radius: 15px;
     overflow-y: scroll;
+    overflow-x: scroll;
 }
 
 .container .content_container .record_table table {
@@ -89,6 +90,7 @@
     color: rgb(248, 248, 248);
     position: sticky;
     top: 0px;
+    left: 0;
     height: 60px;
     max-height: 60px;
 }
@@ -102,6 +104,9 @@ th, td{
 }
 td {
     height: 35px;
+    max-height: 60px;
+    white-space: nowrap;
+    overflow: ellipsis;
 }
 
 .container .content_container .record_detail {
@@ -115,51 +120,6 @@ td {
     height: 100%;
     width: 100%;
     border-radius: 15px;
-}
-
-/*popup*/
-
-.popup-image {
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.75);
-    height: 100%;
-    width: 100%;
-    z-index: 300;
-    display: none;
-}
-
-.popup-image .message span {
-    position: absolute;
-    top: 0;
-    right: 10px;
-    font-size: 40px;
-    font-weight: bolder;
-    color: rgb(0, 0, 0);
-    cursor: pointer;
-    z-index: 300;
-}
-
-.popup-image .message
-{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    border-radius: 5px;
-    width: 500px;
-    height: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.popup-image .message p {
-    font-size: larger;
-    color: black;
 }
 
 /* zobrazení detailu */
@@ -228,6 +188,3 @@ td {
     margin-top: 50px;
 }
 
-.add_record_container {
-
-}

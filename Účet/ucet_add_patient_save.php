@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Uložení přidaného pacienta</title>
     <link rel="stylesheet" href="ucet.css">
+    <link rel="stylesheet" href="../Page/popup.css">
 </head>
 <body>
 
 <?php
     //potřebné soubory
     require_once($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
+    require("../Page/functions.php");
     require("ucet_obsah.php");
 
     class ucet_add_patient_save extends ucet_obsah
@@ -43,18 +45,8 @@
                 foreach($errors as $inputname => $err_msg)
                 {
                     //když nebyl vyplněn povinný údaj vypíšu zprávu a poté vrátím 0 protože nechci posílat dat do databáze
-                    ?>
-                    <div class="popup-image">
-                        <div class="message">
-                            <span>&times;</span> <!-- html entita, která vytvoří symbol křížku -->
-                            <h2>Odeslání - Neúspěšné</h2>
-                            <p>
-                                *Zapomněli jste vyplnit některé povinné údaje
-                            </p>
-                        </div>
-                    </div>
-                    <script>document.querySelector('.popup-image').style.display = 'block';</script>
-                    <?php
+
+                    err_msg("Odeslání - Neúspěšné","Zapomněli jste vyplnit některé povinné údaje");
                     return 0;
                 }
                 //vše bylo vyplněno
@@ -67,80 +59,19 @@
                     //vytvářím zkrácené názvy proměnných pro tabulku contact
                     @$id = $_POST['identification_number'];
 
-                    //zkontroluju, zda rodné číslo splňuje parametry rodného čísla
-                    if(!((strlen($id) == 10) && ((intval($id) % 11) == 0) && (is_numeric($id))))
+                    //zjistím zda rodné číslo existuje
+
+                    if(patientExist($id))
                     {
-                        //rodné číslo neodpovídá parametrům, takže vypíšu zprávu a skončím
-                        ?>
-                            <div class="popup-image">
-                                <div class="message">
-                                    <span>&times;</span> <!-- html entita, která vytvoří symbol křížku -->
-                                    <h2>Odeslání - Neúspěšné</h2>
-                                    <p style="margin-bottom: 0;">
-                                        *Zkontrolujte prosím znovu, zda jste zadali rodné číslo správně. 
-                                    </p>
-                                    <p>
-                                    Parametry rodného čísla nejsou správné
-                                    </p>
-                                </div>
-                            </div>
-                            <script>document.querySelector('.popup-image').style.display = 'block';</script>
-                        <?php
+                        err_msg("Přidání - Neúspěšné", "Pacient, kterého jste chtěli přidat již existuje");
+                        return 0;
+                    } elseif(parametersID($id) == false) {     
+                        //zkontroluju parametry rodného čísla
+
+                        err_msg("Přidání - Neúspěšné", "Parametry rodného čísla nejsou správné");
                         return 0;
                     }
                     
-                    //zjistím zda náhodou daný pacient již neexistuje
-
-                    //připravím dotaz
-                    $query = "SELECT identification_number FROM patient_account WHERE identification_number = $id";
-
-                    try
-                    {
-                        //zkusím provést příkaz
-
-                        $stmt = $db->prepare($query);
-                        $stmt->execute();
-                        $stmt->store_result();
-                        $stmt->bind_result($id_from_db);
-                        $stmt->fetch();
-                    }
-                    catch(PDOException $err)
-                    {
-                        //pokud rodné číslo neexistuje zachytím vyjímku
-
-                        echo $err->getMessage();
-                        return 0;
-                    }
-                    if(!empty($id_from_db))
-                    {
-                        if($id_from_db == $id)
-                        {
-                            //uživatel chtěl přidat pacienta, který již existuje
-
-                            ?>
-                                <div class="popup-image">
-                                    <div class="message">
-                                        <span>&times;</span> 
-                                        <h2>Odeslání - Neúspěšné</h2>
-                                        <p id="id_exist_p">*Pacient s vyplněným rodným číslem již existuje</p>
-                                    </div>
-                                </div>
-                                <script>
-                                    //zobrazení popupu
-                                    document.querySelector('.popup-image').style.display = 'block';
-
-                                    //změnění textu paragraphu
-                                    /*
-                                    const message = "<?//echo "Pacient s rodným číslem $id_from_db už existuje" ?>";
-                                    const p = document.getElementById('id_exist_p');
-                                    p.innerText = message;*/
-                                </script>
-                            <?php
-                            return 0;
-                        }
-                    }
-                   
-
                     //zkontroluju zda jsou ostatní proměnné správného typu (string, int)
 
                     $surname = $_POST['surname'];
@@ -217,17 +148,7 @@
 
     $domovska_stranka->obsah =$ucet_obsah->ucet_obsah("Přidání pacienta", "ucet_add_patient.php");
 
-    $domovska_stranka->zobrazeni_stranky();
-    ?>
-        <script>
-            //nastavím spanu, což je křížek, akci onclick
-            document.querySelector('.popup-image span').onclick = () =>
-            {
-                //když se spustí onclick schovám popup
-                document.querySelector('.popup-image').style.display = 'none';
-            }
-        </script>
-    <?php
+    $domovska_stranka->zobrazeni_stranky(true);
 ?>
 </body>
 

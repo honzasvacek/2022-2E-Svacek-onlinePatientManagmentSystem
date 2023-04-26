@@ -54,7 +54,7 @@
                 try
                 {
                     //připojení na databázi
-                    $db = new mysqli('localhost', 'root', '', 'svacekhealth');
+                    $db = connect_to_database();
 
                     //vytvářím zkrácené názvy proměnných pro tabulku contact
                     @$id = $_POST['identification_number'];

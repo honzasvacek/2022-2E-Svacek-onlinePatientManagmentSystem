@@ -34,7 +34,6 @@
                     @$x = $_POST["$dbname"];
                     if(($dbname == "sex") && ($x == "null"))
                     {
-                        echo "OJOJOJO";
                         $errors[$czname] = "$czname nebylo vyplněno";
                     }
                     if(empty($x))

@@ -126,6 +126,11 @@ button:active, .btn-zpatky:active{
     min-width: 40px;
 }
 
+select {
+    width: 167px;
+    height: 20px;
+}
+
 .account_form{
     display: flex;
     flex-direction: column;

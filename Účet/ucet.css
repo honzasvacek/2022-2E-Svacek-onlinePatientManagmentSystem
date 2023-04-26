@@ -168,3 +168,7 @@ button:active, .btn-zpatky:active{
 .headline{
     color: white;
 }
+
+.submit-button {
+    margin-bottom: 4%;
+}

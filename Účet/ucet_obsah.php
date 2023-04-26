@@ -84,6 +84,7 @@
                 if($i == 3)
                 {
                     echo "<select name=\"sex\">
+                        <option value=\"null\">Vyberte Pohlaví</option>
                         <option value=\"0\">Žena</option>
                         <option value=\"1\">Muž</option>
                     </select>";

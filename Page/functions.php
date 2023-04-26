@@ -60,6 +60,16 @@
           }   
     }
 
+    function sexToNum($sex)
+    {
+        if($sex == "Muž")
+        {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     function checkLogin($id, $username, $password)
     {
         if(empty($id) or empty($username) or empty($password) or !is_numeric($id))
@@ -131,6 +141,7 @@
 
     function patientExist($id)
     {
+        $id = htmlspecialchars(trim($id));
 
         if(!((strlen($id) == 10) && ((intval($id) % 11) == 0) && (is_numeric($id))))
         {

@@ -32,7 +32,11 @@
                 {
                     //kontroluju, jestli jsou všechny pole vyplněná
                     @$x = $_POST["$dbname"];
-                    
+                    if(($dbname == "sex") && ($x == "null"))
+                    {
+                        echo "OJOJOJO";
+                        $errors[$czname] = "$czname nebylo vyplněno";
+                    }
                     if(empty($x))
                     {
                         if(($dbname != "sex") && ($dbname != "chronic_diseases") && ($dbname != "allergic_diseases") && ($dbname != "genetic_diseases") && ($dbname != "hereditary_diseases"))

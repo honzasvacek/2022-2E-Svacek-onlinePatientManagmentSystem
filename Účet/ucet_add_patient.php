@@ -25,7 +25,7 @@
         public function submit_tlacitko()
         {
            echo "<div style=\"border-top: 0.5px solid gray;\" class=\"buttons-div\">";
-           echo "<input class=\"submit-button\" type=\"submit\" value=\"Save\">";
+           echo "<input class=\"submit-button\" type=\"submit\" value=\"Přidat\">";
            echo "</div>";
         }
     }

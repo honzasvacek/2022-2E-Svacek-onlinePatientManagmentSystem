@@ -32,91 +32,19 @@
 
         public function kontrola_rodneho_cisla()
         {
-            //prvně zkontroluju zda uživatel něco postnul, pokud ne nebudu nic kontrolvat
-
-            //získání vstupu uživatele
-            @$id = htmlspecialchars(trim($_POST['rodne_cislo']));
-
-            if(empty($id))
+            if(!empty($_POST['rodne_cislo']))
             {
-                //uživatel nic nevyplnil
+                if(patientExist($_POST['rodne_cislo']))
+                {
+                    return true;
+                } else {
+                    err_msg("Hledání - Neúspěšné", "Pacient s vyplněným rodným číslem neexistuje");
+                    return false;
+                }
+            } else {
                 return false;
             }
-
-            //spojení na databázi
-            @$db = new mysqli('localhost', 'root', '', 'svacekhealth');
-            if(mysqli_connect_errno() != 0)
-            {
-                //spojení se nepodařilo, protože funkce vrátila číslo různé od nuly => číslo chyby
-                echo '<p> Nepodařilo se navázat spojení s databází </p>';
-                return false;
-            }
-            //zkontrolání formátu rodného čísla - jestli má vůbec cenu ho hledat v databázi
-
-            if(!((strlen($id) == 10) && ((intval($id) % 11) == 0) && (is_numeric($id))))
-            {
-                //rodné číslo neodpovídá parametrům, takže vypíšu zprávu a skončím
-                ?>
-                    <div class="popup-image">
-                        <div class="message">
-                            <span>&times;</span> <!-- html entita, která vytvoří symbol křížku -->
-                            <h2>Hledání - Neúspěšné</h2>
-                            <p style="margin-bottom: 0;">
-                                *Zkontrolujte prosím znovu, zda jste zadali rodné číslo správně. 
-                            </p>
-                            <p>
-                            Parametry rodného čísla nejsou správné
-                            </p>
-                        </div>
-                    </div>
-                    <script>document.querySelector('.popup-image').style.display = 'block';</script>
-                <?php
-                return false;
-            }
-
-            //zkontrolování, zda je rondné číslo v databázi
-
-            $query = "SELECT identification_number FROM patient_account WHERE identification_number = $id";
-
-            try
-            {
-                //zkusím provést příkaz
-
-                $stmt = $db->prepare($query);
-                $stmt->execute();
-                $stmt->store_result();
-                $stmt->bind_result($id_from_db);
-                $stmt->fetch();
-            }
-            catch(PDOException $err)
-            {
-                //pokud rodné číslo neexistuje zachytím vyjímku
-
-                echo $err->getMessage();
-                return false;
-            }
-
-            if(empty($id_from_db))
-            {            
-                //uživatel chtěl přidat pacienta, který již existuje
-
-                ?>
-                    <div class="popup-image">
-                        <div class="message">
-                            <span>&times;</span> 
-                            <h2>Hledání - Neúspěšné</h2>
-                            <p>*Pacient s vyplněným rodným číslem neexistuje</p>
-                        </div>
-                    </div>
-                    <script>
-                        //zobrazení popupu
-                        document.querySelector('.popup-image').style.display = 'block';
-                    </script>
-                <?php
-                return false;
-            }
-            //když se nikde nevrátilo false znamenáto, že je vše ok
-            return true;
+            
         }
 
         public function dynamicke_zobrazeni_policek($arr)
@@ -125,83 +53,10 @@
             
             if(!empty($id))
             {
-                //získání vstupu uživatele
+                $db = connect_to_database();
+                
                 $id = htmlspecialchars(trim($_POST['rodne_cislo']));
 
-
-                //spojení na databázi
-                @$db = new mysqli('localhost', 'root', '', 'svacekhealth');
-                if(mysqli_connect_errno() != 0)
-                {
-                    //spojení se nepodařilo, protože funkce vrátila číslo různé od nuly => číslo chyby
-                    echo '<p> Nepodařilo se navázat spojení s databází </p>';
-                    exit;
-                }
-                //zkontrolání formátu rodného čísla - jestli má vůbec cenu ho hledat v databázi
-
-                if(!((strlen($id) == 10) && ((intval($id) % 11) == 0) && (is_numeric($id))))
-                {
-                    //rodné číslo neodpovídá parametrům, takže vypíšu zprávu a skončím
-                    ?>
-                        <div class="popup-image">
-                            <div class="message">
-                                <span>&times;</span> <!-- html entita, která vytvoří symbol křížku -->
-                                <h2>Hledání - Neúspěšné</h2>
-                                <p style="margin-bottom: 0;">
-                                    *Zkontrolujte prosím znovu, zda jste zadali rodné číslo správně. 
-                                </p>
-                                <p>
-                                Parametry rodného čísla nejsou správné
-                                </p>
-                            </div>
-                        </div>
-                        <script>document.querySelector('.popup-image').style.display = 'block';</script>
-                    <?php
-                    return 0;
-                }
-
-                //zkontrolování, zda je rondné číslo v databázi
-
-                $query = "SELECT identification_number FROM patient_account WHERE identification_number = $id";
-
-                try
-                {
-                    //zkusím provést příkaz
-
-                    $stmt = $db->prepare($query);
-                    $stmt->execute();
-                    $stmt->store_result();
-                    $stmt->bind_result($id_from_db);
-                    $stmt->fetch();
-                }
-                catch(PDOException $err)
-                {
-                    //pokud rodné číslo neexistuje zachytím vyjímku
-
-                    echo $err->getMessage();
-                    return 0;
-                }
-
-                if(empty($id_from_db))
-                {            
-                    //uživatel chtěl přidat pacienta, který již existuje
-
-                    ?>
-                        <div class="popup-image">
-                            <div class="message">
-                                <span>&times;</span> 
-                                <h2>Hledání - Neúspěšné</h2>
-                                <p>*Pacient s vyplněným rodným číslem neexistuje</p>
-                            </div>
-                        </div>
-                        <script>
-                            //zobrazení popupu
-                            document.querySelector('.popup-image').style.display = 'block';
-                        </script>
-                    <?php
-                    return 0;
-                }
-                
                 //získáni dat z tabulky - patient_account
                 $query = "SELECT surname, lastname FROM patient_account WHERE identification_number = $id";
                 $stmt = $db->prepare($query);

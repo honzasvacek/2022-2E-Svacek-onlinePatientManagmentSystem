@@ -16,7 +16,6 @@
 
         public function obsah_zpravy()
         {
-            err_msg("Hledání - Neúspěšné", "Pacient s vyplěným rodným číslem neexistuje");
             if(!patientExist(trim($_POST['rodne_cislo'])))
             {
                 err_msg("Hledání - Neúspěšné", "Pacient s vyplěným rodným číslem neexistuje");

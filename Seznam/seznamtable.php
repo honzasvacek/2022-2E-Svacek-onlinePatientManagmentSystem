@@ -42,6 +42,13 @@
             while($stmt->fetch())
             {
                 //dokud je co číst budu vypisovat řádky z daty
+                
+                if(strlen(strval($rodnecislo)) == 9)
+                {
+                    //rodné číslo ukládám jako int, takže databáze automaticky zbavila rodné číslo nuly na začátku
+                    
+                    $rodnecislo = "0{$rodnecislo}";
+                }    
 
                 if($jeHledano)
                 {

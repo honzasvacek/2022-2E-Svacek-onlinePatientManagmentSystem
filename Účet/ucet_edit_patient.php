@@ -26,7 +26,7 @@
         public function submit_tlacitko()
         {
             echo "<div style=\"border-top: 0.5px solid gray;\" class=\"buttons-div\">";
-            echo "<input class=\"submit-button\" type=\"submit\" value=\"Uložit úpravy\">";  
+            echo "<input class=\"submit-button\" type=\"submit\" value=\"Upravit\">";  
             echo "</div>"; 
         }
 
@@ -95,8 +95,6 @@
             //vypsání obsahu
             $i = 0;
 
-            $sex = getSex($sex);
-
             $hodnoty_databaze = array($jmeno, $prijmeni, $id, $sex, $tel, $mail,
                                     $zeme, $mesto, $psc, $ulice, $cp,
                                     $vaha, $vyska, $kr_skupina, $chr_n,
@@ -125,7 +123,21 @@
                     echo "<h2>Zdravotní údaje</h2>";
                 }
                 echo "<p class=\"info\">$czname</p>";
-                echo "<input class=\"input_field\" value=\"$hodnoty_databaze[$i]\" type=\"text\" name=\"$dbname\" size=\"25\">";
+                if($i == 3)
+                {
+                    echo "<select name=\"sex\">";
+                    if($sex == 1)
+                    {
+                        echo "<option value=\"1\">Muž</option>";
+                        echo "<option value=\"0\">Žena</option>";
+                    } else {
+                        echo "<option value=\"0\">Žena</option>";
+                        echo "<option value=\"1\">Muž</option>";
+                    }
+                    echo "</select>";
+                } else {
+                    echo "<input class=\"input_field\" value=\"$hodnoty_databaze[$i]\" type=\"text\" name=\"$dbname\">";
+                }
                 $i++;
             }
             

@@ -1,21 +1,15 @@
 <?php
+require("../Page/functions.php");
 
-if($_SERVER['REQUEST_METHOD'] == "POST")
-{
-    ?>
-        <div class="popup-image">
-<div class="message">
-    <span>&times;</span> <!-- html entita, která vytvoří symbol křížku -->
-    <h2>Přihlášení - Neúspěšné</h2>
-    <p style="margin-bottom: 0;">
-        *Zkontrolujte prosím znovu, zda jste zadali přihlašovací správně. 
-    </p>
-</div>
-</div>
-<script>document.querySelector('.popup-image').style.display = 'block';</script>
-    <?php
-}
 
+if(isset($_SERVER['HTTP_REFERER'])){
+    $cur_p="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+
+    if($_SERVER['HTTP_REFERER']==$cur_p){
+        //znamená, že jsem byl ze stránky index.php přesměrován zpátky => přihlašovací údaje nejsou správné
+        err_msg("Přihlášení - Neúspěšné", "Údaje nejsou správné");
+    }
+} 
 ?>
 <!DOCTYPE html>
 <html lang="en">

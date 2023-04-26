@@ -21,8 +21,8 @@
     if($result == 0)
     {
         //nepustím uživatele na domovskou stránku
-
         header("Location: ../Login/login.php");
+        
     } elseif($result == 2) {
         //admin
 

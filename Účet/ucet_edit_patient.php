@@ -32,7 +32,8 @@
 
         public function kontrola_rodneho_cisla()
         {
-            @$id = $_POST['rodne_cislo'];
+            @$id = htmlspecialchars(trim($_POST['rodne_cislo']));
+
             if(!empty($id))
             {
                 //připojení na databázi
@@ -62,103 +63,72 @@
         public function dynamicke_zobrazeni_policek($arr)
         {
             @$id = trim($_POST['rodne_cislo']);
-            if(empty($id))
+          
+            //spojení na databázi
+            $db = connect_to_database();
+            
+            //získáni dat z tabulky - patient_account
+            $query = "SELECT surname, lastname FROM patient_account WHERE identification_number = $id";
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($jmeno, $prijmeni);
+            $stmt->fetch();
+
+            //získání dat z tabulky - contact
+            $query = "SELECT  telefon_number, email, country, city, zip_code, street, house_number
+            FROM contact WHERE identification_number = $id";
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($tel, $mail, $zeme, $mesto, $psc, $ulice, $cp);
+            $stmt->fetch();
+
+            //získání dat z tabulky - medical_detail
+            $query = "SELECT sex, weight, height, bloodtype, chronic_diseases, allergic_diseases, genetic_diseases, hereditary_diseases
+            FROM medical_detail WHERE identification_number = $id";
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($sex, $vaha, $vyska, $kr_skupina, $chr_n, $ale_n, $gen_n, $ded_n);
+            $stmt->fetch();
+            //vypsání obsahu
+            $i = 0;
+
+            $sex = getSex($sex);
+
+            $hodnoty_databaze = array($jmeno, $prijmeni, $id, $sex, $tel, $mail,
+                                    $zeme, $mesto, $psc, $ulice, $cp,
+                                    $vaha, $vyska, $kr_skupina, $chr_n,
+                                    $ale_n, $gen_n, $ded_n
+                                    );
+            foreach($arr as $dbname => $czname)
             {
-                $i = 0;
-                foreach($arr as $dbname => $czname)
+                if($i == 0)
                 {
-                    if($i == 0)
-                    {
-                        //chci pritnout první div
-                        echo "<div class=\"left-div\">";
-                        echo "<h2>Základní údaje</h2>";
-                    }
-                    if($i==3)
-                    {
-                        //chci pritnout druhý div a ukončit první
-                        echo "</div>";
-                        echo "<div class=\"middle-div\">";
-                        echo "<h2>Kontakt</h2>";
-                    }
-                    if($i==10)
-                    {
-                        //chci pritnout třetí div a ukončit druhý
-                        echo "</div>";
-                        echo "<div class=\"right-div\">";
-                        echo "<h2>Zdravotní údaje</h2>";
-                    }
-                    echo "<p class=\"info\">$czname</p>";
-                    echo "<input class=\"input_field\" value=\"\" type=\"text\" name=\"$dbname\" size=\"25\">";
-                    $i++;
+                    //chci pritnout první div
+                    echo "<div class=\"left-div\">";
+                    echo "<h2>Základní údaje</h2>";
                 }
-            }
-            else
-            {
-                //spojení na databázi
-                $db = connect_to_database();
-                
-                //získáni dat z tabulky - patient_account
-                $query = "SELECT surname, lastname FROM patient_account WHERE identification_number = $id";
-                $stmt = $db->prepare($query);
-                $stmt->execute();
-                $stmt->store_result();
-                $stmt->bind_result($jmeno, $prijmeni);
-                $stmt->fetch();
-
-                //získání dat z tabulky - contact
-                $query = "SELECT  telefon_number, email, country, city, zip_code, street, house_number
-                FROM contact WHERE identification_number = $id";
-                $stmt = $db->prepare($query);
-                $stmt->execute();
-                $stmt->store_result();
-                $stmt->bind_result($tel, $mail, $zeme, $mesto, $psc, $ulice, $cp);
-                $stmt->fetch();
-
-                //získání dat z tabulky - medical_detail
-                $query = "SELECT sex, weight, height, bloodtype, chronic_diseases, allergic_diseases, genetic_diseases, hereditary_diseases
-                FROM medical_detail WHERE identification_number = $id";
-                $stmt = $db->prepare($query);
-                $stmt->execute();
-                $stmt->store_result();
-                $stmt->bind_result($sex, $vaha, $vyska, $kr_skupina, $chr_n, $ale_n, $gen_n, $ded_n);
-                $stmt->fetch();
-                //vypsání obsahu
-                $i = 0;
-
-                $sex = getSex($sex);
-
-                $hodnoty_databaze = array($jmeno, $prijmeni, $id, $sex, $tel, $mail,
-                                        $zeme, $mesto, $psc, $ulice, $cp,
-                                        $vaha, $vyska, $kr_skupina, $chr_n,
-                                        $ale_n, $gen_n, $ded_n
-                                        );
-                foreach($arr as $dbname => $czname)
+                if($i==4)
                 {
-                    if($i == 0)
-                    {
-                        //chci pritnout první div
-                        echo "<div class=\"left-div\">";
-                        echo "<h2>Základní údaje</h2>";
-                    }
-                    if($i==4)
-                    {
-                        //chci pritnout druhý div a ukončit první
-                        echo "</div>";
-                        echo "<div class=\"middle-div\">";
-                        echo "<h2>Kontakt</h2>";
-                    }
-                    if($i==11)
-                    {
-                        //chci pritnout třetí div a ukončit druhý
-                        echo "</div>";
-                        echo "<div class=\"right-div\">";
-                        echo "<h2>Zdravotní údaje</h2>";
-                    }
-                    echo "<p class=\"info\">$czname</p>";
-                    echo "<input class=\"input_field\" value=\"$hodnoty_databaze[$i]\" type=\"text\" name=\"$dbname\" size=\"25\">";
-                    $i++;
+                    //chci pritnout druhý div a ukončit první
+                    echo "</div>";
+                    echo "<div class=\"middle-div\">";
+                    echo "<h2>Kontakt</h2>";
                 }
+                if($i==11)
+                {
+                    //chci pritnout třetí div a ukončit druhý
+                    echo "</div>";
+                    echo "<div class=\"right-div\">";
+                    echo "<h2>Zdravotní údaje</h2>";
+                }
+                echo "<p class=\"info\">$czname</p>";
+                echo "<input class=\"input_field\" value=\"$hodnoty_databaze[$i]\" type=\"text\" name=\"$dbname\" size=\"25\">";
+                $i++;
             }
+            
         }
     }
 

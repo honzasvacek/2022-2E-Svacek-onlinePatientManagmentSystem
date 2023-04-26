@@ -66,11 +66,13 @@
                         err_msg("Přidání - Neúspěšné", "Pacient, kterého jste chtěli přidat již existuje");
                         return 0;
                     }
+                    
                     if(parametersID($id) == false)
                     {
                         err_msg("Přidání - Neúspěšné", "Rodné číslo je ve špatném formátu");
                         return 0;
                     }
+
                     $values = array(
                         'surname', 'lastname', 'sex', 'telefon_number', 'email', 'country', 'city', 'zip_code', 'street', 
                         'house_number', 'weight', 'height', 'blood_type', 'chronic_diseases', 'allergic_diseases',

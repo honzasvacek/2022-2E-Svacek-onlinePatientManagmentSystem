@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Sob 15. dub 2023, 13:21
--- Verze serveru: 10.4.27-MariaDB
--- Verze PHP: 8.1.12
+-- Vytvořeno: Stř 26. dub 2023, 16:56
+-- Verze serveru: 10.4.24-MariaDB
+-- Verze PHP: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -36,7 +36,7 @@ CREATE TABLE `contact` (
   `zip_code` int(10) UNSIGNED NOT NULL,
   `street` varchar(100) NOT NULL,
   `house_number` int(10) UNSIGNED NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Vypisuji data pro tabulku `contact`
@@ -44,7 +44,6 @@ CREATE TABLE `contact` (
 
 INSERT INTO `contact` (`identification_number`, `telefon_number`, `email`, `country`, `city`, `zip_code`, `street`, `house_number`) VALUES
 (1007180394, 771466686, 'Vaclav.Krcmar@centrum.cz', 'Česká republika', 'Valašské Meziříčí', 47502, 'Vásostná', 55),
-(1911296167, 705972571, 'odolen_kuklova@centrum.cz', 'Česká republika', 'Cheb', 66704, 'Pavlišovská', 21),
 (1512192770, 606851669, 'vlastimir52@centrum.cz', 'Česká republika', 'Valašské Meziříčí', 47502, 'K Háji', 2),
 (1309041745, 793507685, 'zoran68@gmail.com', 'Česká republika', 'Karlovy Vary', 2497, 'Chlumínská', 89),
 (801250351, 607417019, 'Lukas.Bodlak@centrum.cz', 'Česká republika', 'Praha 3', 13000, 'Vinohradská', 125),
@@ -62,7 +61,8 @@ INSERT INTO `contact` (`identification_number`, `telefon_number`, `email`, `coun
 (658063791, 605000371, 'zoja_manakova@atlas.cz', 'Česká republika', ' Valašské Meziříčí', 80216, 'N. A. Někrasova', 87),
 (1858214402, 909821531, 'kornelius.kalousek@gmail.com', 'Slovenská republika', 'Prešov', 8001, 'Mukačevská', 4818),
 (9757134057, 940270015, 'benedikta38@gmail.com', 'Slovenská republika', 'Košice', 4001, 'Tajovského', 749),
-(7505241634, 601485300, 'pribyslav87@gmail.com', 'Česká republika', 'Karviná', 2230, 'Hečkova', 6);
+(7505241634, 601485300, 'pribyslav87@gmail.com', 'Česká republika', 'Karviná', 2230, 'Hečkova', 6),
+(556289426, 724, 'klara.prokopova@student.gyarab.cz', 'Česká republika', 'Rudná', 25219, 'V Brance', 1444);
 
 -- --------------------------------------------------------
 
@@ -75,22 +75,20 @@ CREATE TABLE `doctors` (
   `Username` char(50) NOT NULL,
   `Password` char(100) NOT NULL,
   `Date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Vypisuji data pro tabulku `doctors`
 --
 
 INSERT INTO `doctors` (`UserID`, `Username`, `Password`, `Date`) VALUES
-(1, 'Petr Novák', 'Chorobopis1', '0000-00-00 00:00:00'),
-(7, 'James Bond', 'heslo7', '2023-03-16 19:56:17'),
-(8, 'Petr Psvel', 'heslo48', '2023-03-16 19:56:17'),
-(9, 'Ivan Hurt', 'heslo15', '2023-03-16 19:56:17'),
-(10, 'Jan Lana', 'heslo1', '2023-03-16 19:56:17'),
-(11, 'Hozáno Sváčkos', '2398', '2023-03-20 16:53:54'),
-(12, 'null testový', '00', '2023-03-20 16:55:12'),
-(13, 'Hozáno Sváčkos', '2398', '2023-03-20 17:00:44'),
-(14, 'Hozáno Sváčkos', '2398', '2023-03-20 17:00:56');
+(1, 'admin', '$2y$10$RcsX0kqX1vOjqaf3oQzYK.VfNRVf6k8c/eKYmbbA0W1Sgutz6.zs2', '2023-04-22 17:52:57'),
+(16, 'Lekar_1', '$2y$10$xBpaD8O3Th7JbnOuipVcW.5MOnoDssraifsyf4WsPsVpWWT5q2I6G', '2023-04-21 20:40:48'),
+(17, 'Lekar_2', '$2y$10$2RmhapIBYWp98hg/n4XcZOlPxaV93OPljNQ0T9.H5EotnYrXBaqRy', '2023-04-21 20:47:14'),
+(18, 'Sestra_1', '$2y$10$Z5ltftJwy5xuYi6ySDO.B.8LMLjH7Ln4uVEWqj6M8ukE3rarizO2G', '2023-04-21 21:09:28'),
+(19, 'Sestra_2', '$2y$10$IvTup4NR3WGfn4cDfm7dFu0kUhgB/bP4Il1C.XWLFCXcq/uHGoj6C', '2023-04-21 21:09:28'),
+(21, 'Lekar_3', '$2y$10$wGHMJcILsH6FPmPH2aZ6redKOHQNPrsMo5kT3pErCIpxkmnAru4Le', '2023-04-22 17:51:30'),
+(22, 'Lekar_4', '$2y$10$dY/UbUmHnle7zFg6RrR0Seb1IMQy.QZGb1UZ4u/JQRFseP/zx9k0q', '2023-04-24 11:54:12');
 
 -- --------------------------------------------------------
 
@@ -108,15 +106,14 @@ CREATE TABLE `medical_detail` (
   `allergic_diseases` varchar(100) NOT NULL DEFAULT 'none',
   `genetic_diseases` varchar(100) NOT NULL DEFAULT 'none',
   `hereditary_diseases` varchar(100) NOT NULL DEFAULT 'none'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Vypisuji data pro tabulku `medical_detail`
 --
 
 INSERT INTO `medical_detail` (`identification_number`, `sex`, `weight`, `height`, `bloodtype`, `chronic_diseases`, `allergic_diseases`, `genetic_diseases`, `hereditary_diseases`) VALUES
-(1007180394, 1, 80.00, 162.00, 'A', '', '', '', ''),
-(1911296167, 1, 58.00, 178.00, 'A', '', '', '', ''),
+(1007180394, 1, 90.00, 162.00, 'A', '', '', '', ''),
 (1512192770, 1, 58.00, 188.00, 'A', '', '', '', ''),
 (1309041745, 1, 68.00, 170.00, 'A', '', '', '', ''),
 (801250351, 1, 75.00, 172.00, 'AB', '', '', '', ''),
@@ -143,10 +140,29 @@ INSERT INTO `medical_detail` (`identification_number`, `sex`, `weight`, `height`
 --
 
 CREATE TABLE `medical_records` (
-  `identification_number` int(10) UNSIGNED NOT NULL,
-  `date` date NOT NULL,
+  `identification_number` bigint(10) UNSIGNED NOT NULL,
+  `date` date NOT NULL DEFAULT current_timestamp(),
   `physical_examination` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Vypisuji data pro tabulku `medical_records`
+--
+
+INSERT INTO `medical_records` (`identification_number`, `date`, `physical_examination`) VALUES
+(1007180394, '0000-00-00', 'subj. nejsou potíže zvetš. játra'),
+(1007180394, '2023-04-19', 'streptokok, zánět spojivek'),
+(1007180394, '2023-04-20', 'výtěr z krku negativní, žádanka na odb. krve'),
+(1007180394, '2023-04-21', 'Odb. krve v pořádku'),
+(7505241634, '2023-04-21', 'Výtěr krku - pozitiv. Mykoplazmata zvš. výskyt'),
+(1007180394, '2023-04-21', 'výtěr z krku pozitvní '),
+(1007180394, '2023-04-21', 'Odb. krve v pořádku'),
+(708150949, '2023-04-21', 'cxyvyxcvycvyx'),
+(801250351, '2023-04-21', 'Spojivky - anemické, růžové; Skléry - ikterické'),
+(801250351, '2023-04-21', 'Zornice - velikost izokorické; vystave ždk. na odb. krve'),
+(801250351, '2023-04-21', 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum dolorem tempore, alias sed quisquam ipsa.'),
+(801250351, '2023-04-21', 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum dolorem tempore, alias sed quisquam ipsa.'),
+(1007180394, '2023-04-21', 'Žádanka na odb. krve');
 
 -- --------------------------------------------------------
 
@@ -159,13 +175,14 @@ CREATE TABLE `patient_account` (
   `surname` varchar(50) NOT NULL,
   `lastname` varchar(50) DEFAULT NULL,
   `date` date NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Vypisuji data pro tabulku `patient_account`
 --
 
 INSERT INTO `patient_account` (`identification_number`, `surname`, `lastname`, `date`) VALUES
+(556289426, 'Klára', 'Prokopová', '2023-04-25'),
 (658063791, 'Hana', 'Svobodová', '2023-04-14'),
 (708150949, 'Bořek', 'Linhart', '2023-04-14'),
 (801250351, 'Lukáš', 'Bodlák', '2023-04-14'),
@@ -176,7 +193,6 @@ INSERT INTO `patient_account` (`identification_number`, `surname`, `lastname`, `
 (1309041745, 'Jiří', 'Stix', '2023-04-14'),
 (1512192770, 'Zdeněk', 'Oliva', '2023-04-14'),
 (1858214402, 'Lydie', 'Rysková', '2023-04-14'),
-(1911296167, 'Jan', 'Prchal', '2023-04-14'),
 (1912105283, 'Petr', 'Procházka', '2023-04-14'),
 (6354287445, 'Svitlana', 'Kvasničková', '2023-04-14'),
 (7011049397, 'Josef', 'Sobek', '2023-04-14'),
@@ -186,19 +202,6 @@ INSERT INTO `patient_account` (`identification_number`, `surname`, `lastname`, `
 (8105070875, 'Věra', 'Plocková', '2023-04-14'),
 (8703233275, 'Alois', 'Ševčík', '2023-04-14'),
 (9757134057, 'Eva', 'Vágnerová', '2023-04-14');
-
--- --------------------------------------------------------
-
---
--- Struktura tabulky `patient_account_error`
---
-
-CREATE TABLE `patient_account_error` (
-  `identification_number` int(10) UNSIGNED NOT NULL,
-  `surname` varchar(50) NOT NULL,
-  `lastname` varchar(50) DEFAULT NULL,
-  `date` date NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexy pro exportované tabulky
@@ -226,18 +229,12 @@ ALTER TABLE `medical_detail`
 -- Indexy pro tabulku `medical_records`
 --
 ALTER TABLE `medical_records`
-  ADD KEY `identification_number` (`identification_number`);
+  ADD KEY `medical_records_ibfk_1` (`identification_number`);
 
 --
 -- Indexy pro tabulku `patient_account`
 --
 ALTER TABLE `patient_account`
-  ADD PRIMARY KEY (`identification_number`);
-
---
--- Indexy pro tabulku `patient_account_error`
---
-ALTER TABLE `patient_account_error`
   ADD PRIMARY KEY (`identification_number`);
 
 --
@@ -248,7 +245,7 @@ ALTER TABLE `patient_account_error`
 -- AUTO_INCREMENT pro tabulku `doctors`
 --
 ALTER TABLE `doctors`
-  MODIFY `UserID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `UserID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Omezení pro exportované tabulky
@@ -258,19 +255,19 @@ ALTER TABLE `doctors`
 -- Omezení pro tabulku `contact`
 --
 ALTER TABLE `contact`
-  ADD CONSTRAINT `contact_ibfk_1` FOREIGN KEY (`identification_number`) REFERENCES `patient_account` (`identification_number`);
+  ADD CONSTRAINT `contact_ibfk_1` FOREIGN KEY (`identification_number`) REFERENCES `patient_account` (`identification_number`) ON DELETE CASCADE;
 
 --
 -- Omezení pro tabulku `medical_detail`
 --
 ALTER TABLE `medical_detail`
-  ADD CONSTRAINT `medical_detail_ibfk_1` FOREIGN KEY (`identification_number`) REFERENCES `patient_account` (`identification_number`);
+  ADD CONSTRAINT `medical_details_ibfk_1` FOREIGN KEY (`identification_number`) REFERENCES `patient_account` (`identification_number`) ON DELETE CASCADE;
 
 --
 -- Omezení pro tabulku `medical_records`
 --
 ALTER TABLE `medical_records`
-  ADD CONSTRAINT `medical_records_ibfk_1` FOREIGN KEY (`identification_number`) REFERENCES `patient_account_error` (`identification_number`);
+  ADD CONSTRAINT `medical_records_ibfk_1` FOREIGN KEY (`identification_number`) REFERENCES `patient_account` (`identification_number`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

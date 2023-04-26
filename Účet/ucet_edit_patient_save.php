@@ -12,7 +12,8 @@
 
 <?php
     //potřebné soubory
-    require_once($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
+    require($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
+    require($_SERVER['DOCUMENT_ROOT'].'/Page/functions.php');
     require("ucet_obsah.php");
 
     class ucet_edit_patient_save extends ucet_obsah
@@ -37,107 +38,45 @@
                         if(($dbname != "chronic_diseases") && ($dbname != "allergic_diseases") && ($dbname != "genetic_diseases") && ($dbname != "hereditary_diseases") && (strval($_POST[$dbname]) != "0"))
                         {
                             //povinný údaj nebyl vyplněn
+
                             $errors[$czname] = "$czname nebylo vyplněno";
-                            //echo $this->errors[$czname];
                         }
                     }
                 }
                 foreach($errors as $inputname => $err_msg)
                 {
                     //když nebyl vyplněn povinný údaj vypíšu zprávu a poté vrátím 0 protože nechci posílat dat do databáze
-                    ?>
-                    <div class="popup-image">
-                        <div class="message">
-                            <span>&times;</span> <!-- html entita, která vytvoří symbol křížku -->
-                            <h2>Odeslání - Neúspěšné</h2>
-                            <p>
-                                *Zapomněli jste vyplnit některé povinné údaje
-                            </p>
-                        </div>
-                    </div>
-                    <script>document.querySelector('.popup-image').style.display = 'block';</script>
-                    <?php
+
+                    err_msg("Odeslání - Neúspěšné", "Zapomněli jste vyplnit některé povinné údaje");
                     return 0;
                 }
                 //vše bylo vyplněno
 
                 try
                 {
+                    $db = connect_to_database();
+
                     @$id = $_POST['identification_number'];
 
-                    //zda splňuje parametry
-                    if(!((strlen($id) == 10) && ((intval($id) % 11) == 0) && (is_numeric($id))))
+                    if(patientExist($id) == false)
                     {
-                        //rodné číslo neodpovídá parametrům, takže vypíšu zprávu a skončím
-                        ?>
-                            <div class="popup-image">
-                                <div class="message">
-                                    <span>&times;</span> <!-- html entita, která vytvoří symbol křížku -->
-                                    <h2>Upravení - Neúspěšné</h2>
-                                    <p style="margin-bottom: 0;">
-                                        *Zkontrolujte prosím znovu, zda jste zadali rodné číslo správně. 
-                                    </p>
-                                    <p>
-                                    Parametry rodného čísla nejsou správné
-                                    </p>
-                                </div>
-                            </div>
-                            <script>document.querySelector('.popup-image').style.display = 'block';</script>
-                        <?php
-                        return 0;
-                    }
+                        //Pacient neexistuje v databázi
 
-                    //pokud splňuje parametry, tak zjistím, zda rodné číslo existuje
-
-                    //připojení na databázi
-                    $db = new mysqli('localhost', 'root', '', 'svacekhealth');
-
-                    //připravím dotaz
-                    $query = "SELECT identification_number FROM patient_account WHERE identification_number = $id";
-
-                    try
-                    {
-                        //zkusím provést příkaz
-
-                        $stmt = $db->prepare($query);
-                        $stmt->execute();
-                        $stmt->store_result();
-                        $stmt->bind_result($id_from_db);
-                        $stmt->fetch();
-                    }
-                    catch(PDOException $err)
-                    {
-                        //pokud rodné číslo neexistuje zachytím vyjímku
-
-                        echo $err->getMessage();
-                        return 0;
-                    }
-                    if(empty($id_from_db))
-                    {
-                        //uživatel hledá pacienta, který neexistuje
-
-                        ?>
-                            <div class="popup-image">
-                                <div class="message">
-                                    <span>&times;</span> 
-                                    <h2>Upravení - Neúspěšné</h2>
-                                    <p id="id_exist_p">*Pacient s vyplněným rodným číslem neexistuje</p>
-                                </div>
-                            </div>
-                            <script>
-                                //zobrazení popupu
-                                document.querySelector('.popup-image').style.display = 'block';
-                            </script>
-                        <?php
-                        return 0;
+                        err_msg("Upravení - Neúspěšné", "Pacient s vyplněným rodným číslem neexistuje");
                     }
 
                     //kontrola, zda rodné číslo existuje
+                    $values = array(
+                        'surname', 'lastname', 'sex', 'telefon_number', 'email', 'country', 'city', 'zip_code', 'street', 
+                        'house_number', 'weight', 'height', 'blood_type', 'chronic_diseases', 'allergic_diseases',
+                        'genetic_diseases', 'hereditary_diseases'
+                    );
 
-                    //vytvářím zkrácené názvy proměnných pro tabulku contact
-                    $id = $_POST['identification_number'];
-                    $surname = $_POST['surname'];
-                    $lastname = $_POST['lastname'];
+                    //dynamické vytvroření proměnných
+                    foreach($values as $value)
+                    {
+                        ${$value} = htmlspecialchars(trim($_POST[$value]));
+                    }
 
                     //zapsání dat do databáze do tabulky patient_account
                     $query = "UPDATE patient_account SET surname = ?, lastname  = ? WHERE identification_number = $id";
@@ -145,81 +84,38 @@
                     $stmt->bind_param('ss',$surname, $lastname);
                     $stmt->execute();
 
-                    //vytvářím zkrácené názvy proměnných pro tabulku contact
-                    $telefon_number = $_POST['telefon_number'];
-                    $email = $_POST['email'];
-                    $country = $_POST['country'];
-                    $city = $_POST['city'];
-                    $zip_code = $_POST['zip_code'];
-                    $street = $_POST['street'];
-                    $house_number = $_POST['house_number'];
-
                     //zapsání dat do databáze do tabulky contact
                     $query = "UPDATE contact SET telefon_number = ?, email = ?, country = ?, city = ?, zip_code = ?, street = ?, house_number = ? WHERE  identification_number = $id";
                     $stmt = $db->prepare($query);
                     $stmt->bind_param('isssisi',$telefon_number, $email, $country, $city, $zip_code, $street, $house_number);
-                    $stmt->execute();
-
-                    //vytvářím zkrácené názvy proměnných pro tabulku contact
-                    $weight = doubleval($_POST['weight']);	
-                    $height	= doubleval($_POST['height']);
-                    $blood_type = $_POST['blood_type'];
-                    @$chronic_diseases = $_POST['chronic_diseases'];	
-                    @$allergic_diseases = $_POST['allergic_diseases'];	
-                    @$genetic_diseases = $_POST['genetic_diseases'];	
-                    @$hereditary_diseases = $_POST['hereditary_diseases'];
-                    if(empty($allergic_diseases))
-                    {
-                        $allergic_diseases = "";
-                    }
-                    if(empty($chronic_diseases))
-                    {
-                        $chronic_diseases = "";
-                    }
-                    if(empty($genetic_diseases))
-                    {
-                        $genetic_diseases = "";
-                    }	
-                    if(empty($hereditary_diseases))
-                    {
-                        $hereditary_diseases = "";
-                    }			
+                    $stmt->execute();			
 
                     //zapsání dat do databáze do tabulky medical_detail
-                    $pomocna_promena = "weight";
-                    $query = "UPDATE medical_detail SET $pomocna_promena = ?, height = ?, bloodtype = ?, chronic_diseases = ?, allergic_diseases = ?,
+                    $query = "UPDATE medical_detail SET sex = ?, weight = ?, height = ?, bloodtype = ?, chronic_diseases = ?, allergic_diseases = ?,
                     genetic_diseases = ?, hereditary_diseases = ? WHERE  identification_number = $id";
                     $stmt = $db->prepare($query);
-                    $stmt->bind_param('ddsssss', $weight, $height, $blood_type, $chronic_diseases, $allergic_diseases, $genetic_diseases, $hereditary_diseases);
+                    $stmt->bind_param('iddsssss',$sex, $weight, $height, $blood_type, $chronic_diseases, $allergic_diseases, $genetic_diseases, $hereditary_diseases);
                     $stmt->execute();
 
                     //odpojení od databáze 
                     $db = null;
+
                 } catch(PDOException $err)
-                    {
-                        //chycení vyjímky
-                        echo "Došlo k chybě: ".$err->getMessage();
-                        return 0;
-                    }
+                {
+                    //chycení vyjímky
+                    echo "Došlo k chybě: ".$err->getMessage();
+                    return 0;
+                }
               
             } 
-            ?>
-            <!-- Všechno porběhlo v pořádku => vypíši zprávu, že všechno proběhlo dobře -->
-                <div class="popup-image">
-                    <div class="message">
-                        <span>&times;</span> <!-- html entita, která vytvoří symbol křížku -->
-                        <h2>Odeslání - Úspěšné</h2>
-                        <p>
-                            Údaje byly upraveny a uloženy
-                        </p>
-                    </div>
-                </div>
-                <script>document.querySelector('.popup-image').style.display = 'block';</script>
-            <?php
+
+            // Všechno porběhlo v pořádku => vypíši zprávu, že všechno proběhlo dobře 
+            
+            err_msg("Upravení - Úspěšné", "Údaje byly úspěšně upraveny");
         }
         
 
-        public function dynamicke_zobrazeni_policek($arr)
+        /*public function dynamicke_zobrazeni_policek($arr)
         {
             
             $i = 0;
@@ -249,7 +145,7 @@
                 echo "<input class=\"input_field\" value=\"\" type=\"text\" name=\"$dbname\" size=\"25\">";
                 $i++;
             }
-        }
+        }*/
     }
 
      //vypsání obsahu

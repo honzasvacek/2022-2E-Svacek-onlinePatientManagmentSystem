@@ -1,4 +1,6 @@
 <?php
+    session_start();
+
     require($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
     require($_SERVER['DOCUMENT_ROOT'].'/Page/functions.php');
 
@@ -21,11 +23,11 @@
     if($result == 0)
     {
         //nepustím uživatele na domovskou stránku
+        
         header("Location: ../Login/login.php");
         
     } elseif($result == 2) {
         //admin
-
         header("Location: ../IndexPage/admin.php");
     }
     

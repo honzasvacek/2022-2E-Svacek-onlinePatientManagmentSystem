@@ -1,15 +1,18 @@
 <?php
 require("../Page/functions.php");
 
-
-if(isset($_SERVER['HTTP_REFERER'])){
+if(isset($_SERVER['HTTP_REFERER']))
+{
     $cur_p="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 
-    if($_SERVER['HTTP_REFERER']==$cur_p){
+    if($_SERVER['HTTP_REFERER']==$cur_p)
+    {
         //znamená, že jsem byl ze stránky index.php přesměrován zpátky => přihlašovací údaje nejsou správné
+
         err_msg("Přihlášení - Neúspěšné", "Údaje nejsou správné");
     }
-} 
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -24,7 +24,7 @@ class karta
             $i = 0;
             echo "<div class=\"container\">";
             echo "<div class=\"account_form\">";
-            echo "<div class=\"header_div\"><h1 class=\"headline\">Karta pacienta $title<h1></div>";
+            echo "<div class=\"header_div\"><h1 class=\"headline\">Karta pacienta $title</h1></div>";
             echo "<div class=\"section-3-div\">";
             foreach($arr_data as $dbname => $czname)
             {

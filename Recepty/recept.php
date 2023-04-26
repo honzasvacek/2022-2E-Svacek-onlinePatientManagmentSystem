@@ -1,14 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recepty</title>
-    <link rel="stylesheet" href="recept.css">
-</head>
-<body>
 <?php
+    require($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
+
+    class recept_stranka extends stranka
+    {
+        public $titel = "Recept";
+
+        public function volitelne_styly()
+        {
+            echo "<link rel=\"stylesheet\" href=\"recept.css\">";
+        }
+    }
+
     class recept
     {
         public function zobrazeni_obsahu_receptu()
@@ -65,12 +67,10 @@
         }
     }
 
-    require($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
-
-    $domovska_stranka = new stranka();
+    $stranka = new recept_stranka();
     $obsah = new recept;
 
-    $domovska_stranka->obsah = $obsah->zobrazeni_obsahu_receptu();
-    $domovska_stranka->zobrazeni_stranky(false);
+    $stranka->obsah = $obsah->zobrazeni_obsahu_receptu();
+    $stranka->zobrazeni_stranky(false);
 ?>
 </body>

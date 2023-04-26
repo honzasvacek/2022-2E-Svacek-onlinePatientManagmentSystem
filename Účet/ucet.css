@@ -118,7 +118,7 @@ button:active, .btn-zpatky:active{
     color: #000000BF;
 }
 
-.input_field{
+.input_field, select{
     margin-left: 60px;
     color: #000000BF;
     display: flex;

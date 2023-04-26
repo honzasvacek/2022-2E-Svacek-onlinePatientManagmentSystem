@@ -1,47 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karta</title>
-    <link rel="stylesheet" href="karta.css">
-    <link rel="stylesheet" href="../Page/popup.css">
-
-</head>
-<body>
-
 <?php
     //potřebné soubory
     require_once($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
     require("karta_class.php");
     require_once($_SERVER['DOCUMENT_ROOT'].'/Page/functions.php');
 
-    //generování stránky
-    $domovska_stranka = new stranka();
-    $obsah_karty = new karta();
-
-    //příprava parametrů
-    $values = ziskani_hodnot_databaze();
-
-    if(empty($values[0]))
+    class resultkarta extends stranka
     {
-        $titel = "";
-    } else {
-        $titel = "- $values[0] $values[1] rč.$values[2]";
-    }
-    
-    if(getAge($values[2], $values[3]) < 15)
-    {
-        $contacts = array("Telefonní číslo zákonného zástupce", "E-mail zákonného zástupce");
-    } else{
-        $contacts = array("Telefonní číslo", "E-mail");
-    }
-    
+        public $titel = "Karta - výsledek";
 
-    $stranka->obsah = $obsah_karty->zobrazeni_karty($values, $titel, $contacts);
-    $stranka->zobrazeni_stranky(true);
+        public function volitelne_styly()
+        {
+            echo "<link rel=\"stylesheet\" href=\"../Karta/karta.css\">";
+            echo "<link rel=\"stylesheet\" href=\"../Page/popup.css\">";
+        }
 
+        public function obsah_zpravy()
+        {
+            err_msg("Hledání - Neúspěšné", "Pacient s vyplěným rodným číslem neexistuje");
+            if(!patientExist(trim($_POST['rodne_cislo'])))
+            {
+                err_msg("Hledání - Neúspěšné", "Pacient s vyplěným rodným číslem neexistuje");
+            }
+        }
+    }
     
     function ziskani_hodnot_databaze()
     {
@@ -53,7 +34,6 @@
 
             if(!patientExist($id))
             {
-                err_msg("Hledání - Neúspěšné", "Pacient s vyplěným rodným číslem neexistuje");
                 $values = array("","","","","","","","","","","","","","","","","","", "");
                 return $values;
             }
@@ -99,7 +79,30 @@
         }
     }
 
+    //generování stránky
+    $stranka = new resultkarta();
+    $obsah_karty = new karta();
+
+    //příprava parametrů
+    $values = ziskani_hodnot_databaze();
+
+    if(empty($values[0]))
+    {
+        $titel = "";
+    } else {
+        $titel = "- $values[0] $values[1] rč.$values[2]";
+    }
     
-?>
-</body>
-</html>
+    if(getAge($values[2], $values[3]) < 15)
+    {
+        $contacts = array("Telefonní číslo zákonného zástupce", "E-mail zákonného zástupce");
+    } else{
+        $contacts = array("Telefonní číslo", "E-mail");
+    }    
+
+    $stranka->zobrazeni_stranky(true);
+    $stranka->obsah = $obsah_karty->zobrazeni_karty($values, $titel, $contacts);
+
+?> 
+
+

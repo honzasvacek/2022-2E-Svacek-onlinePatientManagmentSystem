@@ -258,7 +258,7 @@
  
      $domovska_stranka->obsah =$ucet_obsah->ucet_obsah("Pacient", "ucet_edit_patient_save.php");
  
-     $domovska_stranka->zobrazeni_stranky(true);
+     $domovska_stranka->zobrazeni_stranky(false);
     ?>        
 </body>
 </html>

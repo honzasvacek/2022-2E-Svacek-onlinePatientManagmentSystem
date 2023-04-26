@@ -115,17 +115,19 @@
                 $stmt->fetch();
 
                 //získání dat z tabulky - medical_detail
-                $query = "SELECT weight, height, bloodtype, chronic_diseases, allergic_diseases, genetic_diseases, hereditary_diseases
+                $query = "SELECT sex, weight, height, bloodtype, chronic_diseases, allergic_diseases, genetic_diseases, hereditary_diseases
                 FROM medical_detail WHERE identification_number = $id";
                 $stmt = $db->prepare($query);
                 $stmt->execute();
                 $stmt->store_result();
-                $stmt->bind_result($vaha, $vyska, $kr_skupina, $chr_n, $ale_n, $gen_n, $ded_n);
+                $stmt->bind_result($sex, $vaha, $vyska, $kr_skupina, $chr_n, $ale_n, $gen_n, $ded_n);
                 $stmt->fetch();
                 //vypsání obsahu
                 $i = 0;
 
-                $hodnoty_databaze = array($jmeno, $prijmeni, $id, $tel, $mail,
+                $sex = getSex($sex);
+
+                $hodnoty_databaze = array($jmeno, $prijmeni, $id, $sex, $tel, $mail,
                                         $zeme, $mesto, $psc, $ulice, $cp,
                                         $vaha, $vyska, $kr_skupina, $chr_n,
                                         $ale_n, $gen_n, $ded_n
@@ -138,14 +140,14 @@
                         echo "<div class=\"left-div\">";
                         echo "<h2>Základní údaje</h2>";
                     }
-                    if($i==3)
+                    if($i==4)
                     {
                         //chci pritnout druhý div a ukončit první
                         echo "</div>";
                         echo "<div class=\"middle-div\">";
                         echo "<h2>Kontakt</h2>";
                     }
-                    if($i==10)
+                    if($i==11)
                     {
                         //chci pritnout třetí div a ukončit druhý
                         echo "</div>";

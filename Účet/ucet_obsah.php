@@ -1,9 +1,9 @@
 <?php
     class ucet_obsah
     {
-        public $data = array("surname" => "Jméno", "lastname" => "Příjmení", "identification_number" => "Rodné číslo",
+        public $data = array("surname" => "Jméno", "lastname" => "Příjmení", "identification_number" => "Rodné číslo", "sex" => "Pohlaví",
                              "telefon_number"  => "Telefonní číslo", "email"  => "E-mail", "country"  => "Země" ,
-                             "city"  => "Město", "zip_code"  => "Poštovní směrovací číslo", "street"  => "Ulice", "house_number"  => "Číslo popisné",
+                             "city"  => "Město", "zip_code"  => "Poštovní směrovací číslo", "street"  => "Ulice", "house_number"  => "Číslo popisné", 
                              "weight" => "Váha", "height" => "Výška", "blood_type"  => "Krevní skupina", 
                              "chronic_diseases"  => "Chronické nemoci", "allergic_diseases"  => "Alergie",
                              "genetic_diseases"  => "Genetické nemoci", "hereditary_diseases"  => "Dědičné nemoci"
@@ -64,22 +64,33 @@
                     echo "<div class=\"left-div\">";
                     echo "<h2>Základní údaje</h2>";
                 }
-                if($i==3)
+                if($i==4)
                 {
                     //chci pritnout druhý div a ukončit první
                     echo "</div>";
                     echo "<div class=\"middle-div\">";
                     echo "<h2>Kontakt</h2>";
                 }
-                if($i==10)
+                if($i==11)
                 {
                     //chci pritnout třetí div a ukončit druhý
                     echo "</div>";
                     echo "<div class=\"right-div\">";
                     echo "<h2>Zdravotní údaje</h2>";
                 }
+
                 echo "<p class=\"info\">$czname</p>";
-                echo "<input class=\"input_field\" value=\"\" type=\"text\" name=\"$dbname\">";
+
+                if($i == 3)
+                {
+                    echo "<select name=\"sex\">
+                        <option value=\"0\">Žena</option>
+                        <option value=\"1\">Muž</option>
+                    </select>";
+                } else {
+                    echo "<input class=\"input_field\" value=\"\" type=\"text\" name=\"$dbname\">";
+                }
+
                 $i++;
             }
         }

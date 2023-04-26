@@ -35,7 +35,7 @@
                     
                     if(empty($x))
                     {
-                        if(($dbname != "chronic_diseases") && ($dbname != "allergic_diseases") && ($dbname != "genetic_diseases") && ($dbname != "hereditary_diseases"))
+                        if(($dbname != "sex") && ($dbname != "chronic_diseases") && ($dbname != "allergic_diseases") && ($dbname != "genetic_diseases") && ($dbname != "hereditary_diseases"))
                         {
                             //povinný údaj nebyl vyplněn
                             $errors[$czname] = "$czname nebylo vyplněno";
@@ -65,21 +65,23 @@
                     {
                         err_msg("Přidání - Neúspěšné", "Pacient, kterého jste chtěli přidat již existuje");
                         return 0;
-                    } elseif(parametersID($id) == false) {     
-                        //zkontroluju parametry rodného čísla
-
-                        err_msg("Přidání - Neúspěšné", "Parametry rodného čísla nejsou správné");
+                    }
+                    if(parametersID($id) == false)
+                    {
+                        err_msg("Přidání - Neúspěšné", "Rodné číslo je ve špatném formátu");
                         return 0;
                     }
-                    
-                    //zkontroluju zda jsou ostatní proměnné správného typu (string, int)
+                    $values = array(
+                        'surname', 'lastname', 'sex', 'telefon_number', 'email', 'country', 'city', 'zip_code', 'street', 
+                        'house_number', 'weight', 'height', 'blood_type', 'chronic_diseases', 'allergic_diseases',
+                        'genetic_diseases', 'hereditary_diseases'
+                    );
 
-                    $surname = $_POST['surname'];
-                    $lastname = $_POST['lastname'];
-
-                    //kontrola rodneho cisla
-                    //1) !empty($rodnecislo_post)) && (strlen($rodnecislo_post) == 10) && ((intval($rodnecislo_post) % 11) == 0)
-                    //2) Je v databázi?
+                    //dynamické vytvroření proměnných
+                    foreach($values as $value)
+                    {
+                        ${$value} = htmlspecialchars(trim($_POST[$value]));
+                    }
 
                     //zapsání dat do databáze do tabulky patient_account
                     $query = "INSERT INTO patient_account (identification_number, surname, lastname) VALUES(?, ?, ?)";
@@ -87,34 +89,16 @@
                     $stmt->bind_param('iss', $id, $surname, $lastname);
                     $stmt->execute();
 
-                    //vytvářím zkrácené názvy proměnných pro tabulku contact
-                    $telefon_number = $_POST['telefon_number'];
-                    $email = $_POST['email'];
-                    $country = $_POST['country'];
-                    $city = $_POST['city'];
-                    $zip_code = $_POST['zip_code'];
-                    $street = $_POST['street'];
-                    $house_number = $_POST['house_number'];
-
                     //zapsání dat do databáze do tabulky contact
                     $query = "INSERT INTO contact VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
                     $stmt = $db->prepare($query);
                     $stmt->bind_param('iisssisi',$id, $telefon_number, $email, $country, $city, $zip_code, $street, $house_number);
                     $stmt->execute();
 
-                    //vytvářím zkrácené názvy proměnných pro tabulku contact
-                    $weight = $_POST['weight'];	
-                    $height	= doubleval($_POST['height']);
-                    $blood_type = doubleval($_POST['blood_type']);
-                    $chronic_diseases = $_POST['chronic_diseases'];	
-                    $allergic_diseases = $_POST['allergic_diseases'];	
-                    $genetic_diseases = $_POST['genetic_diseases'];	
-                    $hereditary_diseases = $_POST['hereditary_diseases'];	
-
                     //zapsání dat do databáze do tabulky medical_detail
-                    $query = "INSERT INTO medical_detail VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+                    $query = "INSERT INTO medical_detail VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     $stmt = $db->prepare($query);
-                    $stmt->bind_param('iddsssss',$id, $weight, $height, $blood_type, $chronic_diseases, $allergic_diseases, $genetic_diseases, $hereditary_diseases);
+                    $stmt->bind_param('iiddsssss',$id, $sex, $weight, $height, $blood_type, $chronic_diseases, $allergic_diseases, $genetic_diseases, $hereditary_diseases);
                     $stmt->execute();
 
                     //odpojení od databáze 
@@ -125,19 +109,8 @@
                       echo "Došlo k chybě: ".$err->getMessage();
                       return 0;
                   }
-                ?>
-                <!-- Všechno porběhlo v pořádku => vypíši zprávu, že všechno proběhlo dobře -->
-                    <div class="popup-image">
-                        <div class="message">
-                            <span>&times;</span> <!-- html entita, která vytvoří symbol křížku -->
-                            <h2>Odeslání - Úspěšné</h2>
-                            <p>
-                                Údaje byly upraveny a uloženy
-                            </p>
-                        </div>
-                    </div>
-                    <script>document.querySelector('.popup-image').style.display = 'block';</script>
-                <?php
+                
+                err_msg("Odeslání - Úspěšné", "Údaje byly upraveny a uloženy");
             } 
         }
     }
@@ -148,7 +121,7 @@
 
     $domovska_stranka->obsah =$ucet_obsah->ucet_obsah("Přidání pacienta", "ucet_add_patient.php");
 
-    $domovska_stranka->zobrazeni_stranky(true);
+    $domovska_stranka->zobrazeni_stranky(false);
 ?>
 </body>
 

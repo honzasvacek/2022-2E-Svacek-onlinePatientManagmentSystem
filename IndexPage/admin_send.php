@@ -1,18 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Send request</title>
-    <link rel="stylesheet" href="admin.css">
-    <link rel="stylesheet" href="../Page/popup.css">
-</head>
-<body>
 <?php
     require($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
     require($_SERVER['DOCUMENT_ROOT'].'/Page/functions.php');
     require('admin_obsah.php');
+
+    class admin_send_stranka extends stranka
+    {
+        public $titel = "Admin - Uložení účtu";
+
+        public function volitelne_styly()
+        {
+            echo "<link rel=\"stylesheet\" href=\"admin.css\">";
+            echo "<link rel=\"stylesheet\" href=\"../Page/popup.css\">";
+        }
+    }
 
     function admin_send_obsah()
     {
@@ -54,11 +54,10 @@
 
     admin_send_obsah();
 
-    $stranka = new stranka();
+    $stranka = new admin_send_stranka();
     $obsah = new admin;
 
     $stranka->obsah = $obsah->obsah();
     $stranka->zobrazeni_stranky(false);
+
 ?>
-</body>
-</html>

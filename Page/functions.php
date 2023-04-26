@@ -267,13 +267,13 @@
         if(empty($id) OR empty($examination))
         {
             //uživatel nevyplnil některé údaje
-            err_msg("Odeslání neúspěšné","Nevyplnili jste všechny údaje");
+            err_msg("Odeslání - Neúspěšné","Nevyplnili jste všechny údaje");
             return 0;
         }
 
         if(patientExist($id) == false)
         {
-            err_msg("Odeslání neúspěšné","Pacient s vyplněným rodným číslem neexistuje");
+            err_msg("Odeslání - Neúspěšné","Pacient s vyplněným rodným číslem neexistuje");
             return 0;
         }
 

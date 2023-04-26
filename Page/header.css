@@ -23,8 +23,11 @@
     display: flex;
     flex-direction: row;
 }
-.left_section {
-
+.left_section a{
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    align-items: baseline;
 }
 .logo_picture {
     height: 80px;
@@ -32,7 +35,7 @@
 }
 .logo_svacek {
     height: 60px;
-    margin-left: 80px;
+    margin-right: 60px;
 }
 .middle_section {
 

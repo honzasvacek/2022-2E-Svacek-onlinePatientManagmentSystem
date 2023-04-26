@@ -4,7 +4,7 @@
     {
         //vlastnosti, které budeme chtít na dalších stránkách měnit
         public $obsah;
-        public $titulek = "Svacek Health";
+        public $titulek;
         public $tlacitka = array("Seznam" => "../Seznam/seznam.php", //klíč - jméno tlačítka, //hodnota - url adresa, na kterou odkazují
                                  "Účet" => "../Účet/ucet.php", 
                                  "Karta" => "../Karta/karta.php", 
@@ -12,25 +12,16 @@
                                  "Recept" => "../Recepty/recept.php"
                                 );
         public $vyhledavaci_pole = array("/Seznam/seznam.php" => "resultseznam.php", //klíč - současná url adresa, //hodnota - url adresa, na kterou budou odkazovat
-                                        "/Účet/ucet.php" => "ucet.php",
                                         "/Karta/karta.php" => "resultkarta.php",
                                         "/Chorobopis/chorobopis.php" => "resultchorobopis.php",
-                                        "/Recepty/recept.php" => "resultrecept.php",
                                         "/Seznam/resultseznam.php" => "resultseznam.php",
                                         "/Účet/resultucet.php" => "resultucet.php",
                                         "/Karta/resultkarta.php" => "resultkarta.php",
                                         "/Chorobopis/resultchorobopis.php" => "resultchorobopis.php",
                                         "/Účet/resultrecept.php" => "resultrecept.php",
-                                        "/Účet/ucet_add_patient.php" => "ucet_add_patient.php",
                                         "/Účet/ucet_edit_patient.php" => "ucet_edit_patient.php",
                                         "/Účet/ucet_delete_patient.php" => "ucet_delete_patient.php",
-                                        "/Účet/ucet_add_patient_save.php" => "ucet_add_patient.php",
-                                        "/Účet/ucet_edit_patient_save.php" => "ucet_edit_patient.php",
-                                        "/Účet/ucet_delete_patient_save.php" => "ucet_delete_patient.php",
-                                        "/Chorobopis/chorobopis_addrecord.php" => "resultchorobopis.php",
-                                        "/IndexPage/index.php" => "",
-                                        "/IndexPage/admin.php" => "",
-                                        "/IndexPage/admin_send.php" => ""
+                                        "/Chorobopis/chorobopis_addrecord.php" => "resultchorobopis.php"
                                     );
 
         function __set($name, $value)
@@ -40,16 +31,19 @@
 
         public function zobrazeni_stranky($searchbar)
         {
-            echo "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n"; //začátek stránky v html
+            echo "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n";
+            echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">";
+            echo "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"; //začátek stránky v html
             $this->zobrazení_titulku();
             echo "<meta charset=\"UTF-8\">";
             $this->zobrazení_stylu();
+            $this->volitelne_styly();
             echo "</head>\n<body class=\"body\">\n";
             $this->zobrazeni_zahlavi($searchbar);
             echo $this->obsah;
             $this->zobrazeni_navpanelu($this->tlacitka);
+            $this->zobrazeni_zpravy();
             echo "</body>\n</html>\n";
-            ?> <script src="../Page/popup.js"></script> <?php
         }
 
         public function zobrazení_titulku()
@@ -62,13 +56,19 @@
             ?>
             <link href="../Page/sidebar.css"  rel="stylesheet">
             <link href="../Page/header.css"  rel="stylesheet">
+            <script src="../Page/popup.js"></script>
             <?php
+        }
+
+        public function volitelne_styly()
+        {
+            //v defaultu nechám prázndou
         }
 
         public function zobrazeni_zahlavi($searchbar)
         {
             ?>
-            <form method="post" action="<?=$this->nastaveni_akce($this->vyhledavaci_pole)?>">
+            <form method="post" action="<?=$this->nastaveni_akce($this->vyhledavaci_pole, $searchbar)?>">
             <div class="header">
                 <div class="left_section">
                     <a href="../IndexPage/index.php">
@@ -99,10 +99,15 @@
             <?php
         }
 
-        public function nastaveni_akce($arr)
+        public function nastaveni_akce($arr, $searchbar)
         {
-            $aktualni_url = $_SERVER['PHP_SELF'];
-            return $arr[$aktualni_url];
+            if($searchbar == true)
+            {
+                $aktualni_url = $_SERVER['PHP_SELF'];
+                return $arr[$aktualni_url];
+            } else {
+                return "";
+            }
         }
 
         public function zobrazeni_navpanelu($tlacitka)
@@ -111,7 +116,7 @@
 
             foreach($tlacitka as $jmeno => $url)
             {
-                $this->zobrazeni_tlacitek($jmeno, $url, !$this->jeURLSoucasnaStranka($url));
+                $this->zobrazeni_tlacitek($jmeno, $url, $this->jeURLSoucasnaStranka($url));
             }
 
             echo "</div>"; //konec navpanelu
@@ -119,7 +124,8 @@
 
         public function jeURLSoucasnaStranka($url)
         {
-            if(strpos($_SERVER['PHP_SELF'], $url) === false)
+            $url_formated = substr($url, 2);
+            if(strpos($_SERVER['PHP_SELF'], $url_formated) === false)
             {
                 //soucasna url adresa stranky se neshoduje s url odkazem stranky tlacitka
                 return false;
@@ -130,9 +136,9 @@
               }
         }
 
-        public function zobrazeni_tlacitek($jmeno, $url, $aktivni = true)
+        public function zobrazeni_tlacitek($jmeno, $url, $aktivni)
         {
-            if($aktivni)
+            if($aktivni == false)
             {
                 //soucasna url adresa stranky se neshoduje s url odkazem stranky tlacitka => klasicky design
                 ?>
@@ -148,11 +154,24 @@
                    ?>
                     <div style="background-color:lightslategray;" class="menuitem" data-tooltip="<?=$jmeno?>">
                         <a href="<?=$url?>">
-                            <img class="<?=mb_strtolower($jmeno)?>" src="../Pictures/Sidebar-button/<?=mb_strtolower($jmeno)?>.png">
+                            <img class="<?=mb_strtolower($jmeno)?>" src="../Pictures/Sidebar-buttons/<?=mb_strtolower($jmeno)?>.png">
                         </a>
                     </div>
                    <?php
               }
+        }
+
+        public function obsah_zpravy()
+        {
+            //v defaultu nic
+        }
+
+        public function zobrazeni_zpravy()
+        {
+            $this->obsah_zpravy();
+            ?>
+            <script src="../Page/popup.js"></script>
+            <?php
         }
 
     }

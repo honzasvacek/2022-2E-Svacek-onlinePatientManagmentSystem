@@ -52,13 +52,13 @@ class zobrazeni_tabluky extends chorobopis_obsah
                 if($i % 2 == 0)
                 {
                     echo "<tr style=\"background-color: white;\">
-                                <td>$datum</td>
                                 <td>$vysetreni</td>
+                                <td>$datum</td>
                             </tr>";
                 } else {
                     echo "<tr id=\"test\" style=\"background-color:rgb(241, 241, 241);\">
-                            <td>$datum</td>
-                            <td>$vysetreni</td>
+                                <td>$vysetreni</td>
+                                <td>$datum</td>
                         </tr>";
                 }
 

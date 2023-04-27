@@ -38,7 +38,7 @@
                     }
                     if(empty($x))
                     {
-                        if(($dbname != "sex") && ($dbname != "chronic_diseases") && ($dbname != "allergic_diseases") && ($dbname != "genetic_diseases") && ($dbname != "hereditary_diseases"))
+                        if(!($dbname == "blood_type" && $x == "0") && ($dbname != "sex") && ($dbname != "chronic_diseases") && ($dbname != "allergic_diseases") && ($dbname != "genetic_diseases") && ($dbname != "hereditary_diseases"))
                         {
                             //povinný údaj nebyl vyplněn
                             $errors[$czname] = "$czname nebylo vyplněno";

@@ -34,20 +34,19 @@ class zobrazeni_tabluky extends chorobopis_obsah
 
         if(patientExist($id))
         {
-            $query = "SELECT date, physical_examination FROM medical_records WHERE identification_number = $id";
+            $query = "SELECT record_id FROM patient_id WHERE identification_number = $id";
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($record_id);
+            $stmt->fetch();
 
-            try
-            {
-                $stmt = $db->prepare($query);
-                $stmt->execute();
-                $stmt->store_result();
-                $stmt->bind_result($datum, $vysetreni);
-            }
-            catch(PDOException $err)
-            {
-                return 0;
-            }
-    
+            $query = "SELECT examination, date FROM medical_record WHERE record_id = $record_id";
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($datum, $vysetreni);
+        
             while($stmt->fetch())
             {
                 if($i % 2 == 0)

@@ -38,7 +38,7 @@
             echo "<meta charset=\"UTF-8\">";
             $this->zobrazení_stylu();
             $this->volitelne_styly();
-            echo "</head>\n<body class=\"body\">\n";
+            echo "</head>\n<body>\n";
             $this->zobrazeni_zahlavi($searchbar);
             echo $this->obsah;
             $this->zobrazeni_navpanelu($this->tlacitka);
@@ -112,14 +112,15 @@
 
         public function zobrazeni_navpanelu($tlacitka)
         {
-            echo "<div class=\"sidebar\">"; //začátek navpanelu
+            //začátek navpanelu
+            echo "<div class=\"sidebar\">"; 
 
             foreach($tlacitka as $jmeno => $url)
             {
                 $this->zobrazeni_tlacitek($jmeno, $url, $this->jeURLSoucasnaStranka($url));
             }
-
-            echo "</div>"; //konec navpanelu
+            //konec navpanelu
+            echo "</div>"; 
         }
 
         public function jeURLSoucasnaStranka($url)

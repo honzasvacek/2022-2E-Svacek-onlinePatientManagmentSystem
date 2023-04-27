@@ -10,7 +10,6 @@
         public function volitelne_styly()
         {
             echo "<link rel=\"stylesheet\" href=\"seznam.css\">";
-            echo "<link rel=\"stylesheet\" href=\"../Page/popup.css\">";
         }
 
         public function obsah_zpravy()

@@ -190,6 +190,57 @@
         //kontrola jestli r.č existuje v databázi
     }
 
+    function recordIDExist($id)
+    {
+        $id = htmlspecialchars(trim($id));
+
+        if(!((strlen($id) == 10) && ((intval($id) % 11) == 0) && (is_numeric($id))))
+        {
+            return false;
+        }
+
+        @$db = new mysqli('localhost', 'root', '', 'svacekhealth'); 
+
+        if(mysqli_connect_errno() != 0)
+        {
+            //spojení se nepodařilo, protože funkce vrátila číslo různé od nuly => číslo chyby
+            echo '<p> Nepodařilo se navázat spojení s databází </p>';
+            exit;
+        }
+        //kouknou se zda existuje
+
+        $query = "SELECT identification_number FROM patient_id WHERE identification_number = $id";
+
+        try
+        {
+            //zkusím provést příkaz
+
+            $stmt = $db->prepare($query);
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($id_from_db);
+            $stmt->fetch();
+        }
+        catch(PDOException $err)
+        {
+            //pokud rodné číslo neexistuje zachytím vyjímku
+
+            echo $err->getMessage();
+            return false;
+        }
+        if(empty($id_from_db))
+        {
+            //uživatel hledá pacienta, který neexistuje
+
+            return false;
+        }
+
+        return true;
+
+
+        //kontrola jestli r.č existuje v databázi
+    }
+
     function getName($id)
     {
         @$db = new mysqli('localhost', 'root', '', 'svacekhealth'); 
@@ -220,7 +271,7 @@
                 <div class="message">
                     <span>&times;</span> 
                     <h2><?php echo $h2?></h2>
-                    <p id="id_exist_p"><?php echo $p ?></p>
+                    <p><?php echo $p ?></p>
                 </div>
             </div>
             <script>
@@ -289,12 +340,26 @@
         }
 
         $db = connect_to_database();
-
-        //získání dat z databáze
-
-        $query = "INSERT INTO medical_records (identification_number, physical_examination) VALUES(?, ?)";
+        
+        if(recordIDExist($id) == false)
+        {
+            //pokud je to pacineův první záznam založím mu record_id
+            $query = "INSERT INTO patient_id (identification_number) VALUES(?)";
+            $stmt = $db->prepare($query);
+            $stmt->bind_param('i', $id);
+            $stmt->execute();
+        }
+        
+        $query = "SELECT record_id FROM patient_id WHERE identification_number = $id";
         $stmt = $db->prepare($query);
-        $stmt->bind_param('is', $id, $examination);
+        $stmt->execute();
+        $stmt->store_result();
+        $stmt->bind_result($record_id);
+        $stmt->fetch();
+
+        $query = "INSERT INTO medical_record (record_id, examination) VALUES(?, ?)";
+        $stmt = $db->prepare($query);
+        $stmt->bind_param('is', $record_id, $examination);
         $stmt->execute();
     }
 

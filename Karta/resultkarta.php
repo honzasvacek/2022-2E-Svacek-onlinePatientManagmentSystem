@@ -1,8 +1,8 @@
 <?php
     //potřebné soubory
     require_once($_SERVER['DOCUMENT_ROOT'].'/Page/page.php');
-    require("karta_class.php");
     require_once($_SERVER['DOCUMENT_ROOT'].'/Page/functions.php');
+    require("karta_class.php");
 
     class resultkarta extends stranka
     {

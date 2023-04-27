@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1
--- Vytvořeno: Stř 26. dub 2023, 16:56
+-- Vytvořeno: Čtv 27. dub 2023, 19:12
 -- Verze serveru: 10.4.24-MariaDB
 -- Verze PHP: 8.1.6
 
@@ -136,33 +136,23 @@ INSERT INTO `medical_detail` (`identification_number`, `sex`, `weight`, `height`
 -- --------------------------------------------------------
 
 --
--- Struktura tabulky `medical_records`
+-- Struktura tabulky `medical_record`
 --
 
-CREATE TABLE `medical_records` (
-  `identification_number` bigint(10) UNSIGNED NOT NULL,
-  `date` date NOT NULL DEFAULT current_timestamp(),
-  `physical_examination` varchar(200) NOT NULL
+CREATE TABLE `medical_record` (
+  `record_id` int(10) UNSIGNED NOT NULL,
+  `examination` varchar(100) DEFAULT NULL,
+  `date` date DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Vypisuji data pro tabulku `medical_records`
+-- Vypisuji data pro tabulku `medical_record`
 --
 
-INSERT INTO `medical_records` (`identification_number`, `date`, `physical_examination`) VALUES
-(1007180394, '0000-00-00', 'subj. nejsou potíže zvetš. játra'),
-(1007180394, '2023-04-19', 'streptokok, zánět spojivek'),
-(1007180394, '2023-04-20', 'výtěr z krku negativní, žádanka na odb. krve'),
-(1007180394, '2023-04-21', 'Odb. krve v pořádku'),
-(7505241634, '2023-04-21', 'Výtěr krku - pozitiv. Mykoplazmata zvš. výskyt'),
-(1007180394, '2023-04-21', 'výtěr z krku pozitvní '),
-(1007180394, '2023-04-21', 'Odb. krve v pořádku'),
-(708150949, '2023-04-21', 'cxyvyxcvycvyx'),
-(801250351, '2023-04-21', 'Spojivky - anemické, růžové; Skléry - ikterické'),
-(801250351, '2023-04-21', 'Zornice - velikost izokorické; vystave ždk. na odb. krve'),
-(801250351, '2023-04-21', 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum dolorem tempore, alias sed quisquam ipsa.'),
-(801250351, '2023-04-21', 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Rerum dolorem tempore, alias sed quisquam ipsa.'),
-(1007180394, '2023-04-21', 'Žádanka na odb. krve');
+INSERT INTO `medical_record` (`record_id`, `examination`, `date`) VALUES
+(4, 'test', '2023-04-27'),
+(4, 'test', '2023-04-27'),
+(4, 'lobotom', '2023-04-27');
 
 -- --------------------------------------------------------
 
@@ -203,6 +193,27 @@ INSERT INTO `patient_account` (`identification_number`, `surname`, `lastname`, `
 (8703233275, 'Alois', 'Ševčík', '2023-04-14'),
 (9757134057, 'Eva', 'Vágnerová', '2023-04-14');
 
+-- --------------------------------------------------------
+
+--
+-- Struktura tabulky `patient_id`
+--
+
+CREATE TABLE `patient_id` (
+  `identification_number` bigint(20) UNSIGNED NOT NULL,
+  `record_id` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Vypisuji data pro tabulku `patient_id`
+--
+
+INSERT INTO `patient_id` (`identification_number`, `record_id`) VALUES
+(658063791, 4),
+(801250351, 3),
+(1007180394, 1),
+(7505241634, 2);
+
 --
 -- Indexy pro exportované tabulky
 --
@@ -226,16 +237,23 @@ ALTER TABLE `medical_detail`
   ADD KEY `identification_number` (`identification_number`);
 
 --
--- Indexy pro tabulku `medical_records`
+-- Indexy pro tabulku `medical_record`
 --
-ALTER TABLE `medical_records`
-  ADD KEY `medical_records_ibfk_1` (`identification_number`);
+ALTER TABLE `medical_record`
+  ADD KEY `record_id` (`record_id`);
 
 --
 -- Indexy pro tabulku `patient_account`
 --
 ALTER TABLE `patient_account`
   ADD PRIMARY KEY (`identification_number`);
+
+--
+-- Indexy pro tabulku `patient_id`
+--
+ALTER TABLE `patient_id`
+  ADD PRIMARY KEY (`record_id`),
+  ADD KEY `identification_number` (`identification_number`);
 
 --
 -- AUTO_INCREMENT pro tabulky
@@ -246,6 +264,12 @@ ALTER TABLE `patient_account`
 --
 ALTER TABLE `doctors`
   MODIFY `UserID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT pro tabulku `patient_id`
+--
+ALTER TABLE `patient_id`
+  MODIFY `record_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Omezení pro exportované tabulky
@@ -264,10 +288,16 @@ ALTER TABLE `medical_detail`
   ADD CONSTRAINT `medical_details_ibfk_1` FOREIGN KEY (`identification_number`) REFERENCES `patient_account` (`identification_number`) ON DELETE CASCADE;
 
 --
--- Omezení pro tabulku `medical_records`
+-- Omezení pro tabulku `medical_record`
 --
-ALTER TABLE `medical_records`
-  ADD CONSTRAINT `medical_records_ibfk_1` FOREIGN KEY (`identification_number`) REFERENCES `patient_account` (`identification_number`) ON DELETE CASCADE;
+ALTER TABLE `medical_record`
+  ADD CONSTRAINT `medical_record_ibfk_1` FOREIGN KEY (`record_id`) REFERENCES `patient_id` (`record_id`) ON DELETE CASCADE;
+
+--
+-- Omezení pro tabulku `patient_id`
+--
+ALTER TABLE `patient_id`
+  ADD CONSTRAINT `patient_id_ibfk_1` FOREIGN KEY (`identification_number`) REFERENCES `patient_account` (`identification_number`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
